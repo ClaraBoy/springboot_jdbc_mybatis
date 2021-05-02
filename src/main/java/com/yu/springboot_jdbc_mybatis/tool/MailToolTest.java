@@ -18,15 +18,12 @@ import static org.junit.Assert.*;
 public class MailToolTest {
     @Autowired
     private MailTool mailTool;
-
     @Before
     public void setUp() throws Exception {
     }
-
     @After
     public void tearDown() throws Exception {
     }
-
     @Test
     public void sendSimpleMail() {
         String[] filePathList = new String[]{};
