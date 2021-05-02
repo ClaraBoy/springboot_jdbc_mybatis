@@ -3,7 +3,10 @@ import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
 import com.yu.springboot_jdbc_mybatis.tool.Token;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -113,5 +116,11 @@ public class ClaraController {
         System.out.println(repleinfo);
        int back= services.ReplyComment(new RepleComments(0,repleinfo.getCommentid(),repleinfo.getRepleid(),repleinfo.getRepleType(),repleinfo.getRepletitle(),repleinfo.getRepletext(),repleinfo.getFromusid(),repleinfo.getTouid(),new Token().getTime()));
         return back;
+    }
+    //发送邮件
+    @RequestMapping("/sendmali")
+    public ModelAndView  sendmali(Model model){
+        System.out.println("这是邮件发送");
+        return new ModelAndView("index");//重定向
     }
 }
