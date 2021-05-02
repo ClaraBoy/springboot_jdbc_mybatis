@@ -1,28 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <title></title>
-    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
-<div class="appvue">
-    <h2>{{message}} {{name}}</h2>
-</div>
+<p>hello 欢迎加入 xxx 大家庭，您的入职信息如下：</p>
+<table border="1">
+    <tr>
+        <td>姓名</td>
+        <td th:text="${username}"></td>
+    </tr>
+    <tr>
+        <td>工号</td>
+        <td th:text="${num}"></td>
+    </tr>
+    <tr>
+        <td>薪水</td>
+        <td th:text="${salary}"></td>
+    </tr>
+</table>
+<div style="color: #ff1a0e">一起努力创造辉煌</div>
 </body>
-<script>
-    //引用vue
-    //let 变量 const 常量
-    const app= new Vue({//创建了一个vue实例
-        el: '.appvue',//第一个组件 绑定div绑定挂载的元素
-        data: {//第二个组件 定义数据
-            message: 'hello vue',//传达给被管理的div
-            name: "vue.js",
-            isagree: false,//默认不同意单选
-        },
-        mounted:function(){
-           
-        },
-    })
-</script>
 </html>

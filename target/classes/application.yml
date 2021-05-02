@@ -5,6 +5,19 @@ spring:
     url: jdbc:mysql://localhost:3306/cl?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     #整合mybatis
+  thymeleaf:
+    cache: false
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 1670844920@qq.com
+    password: kptflealcvbfcggd
+    properties:
+      mali:
+        smtp:
+          auth: true
+          starttls:
+          enable: true
 mybatis:
   type-aliases-package: com.yu.springboot_jdbc_mybatis.pojo
   mapper-locations: classpath:mybatis\*.xml
