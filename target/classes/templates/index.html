@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+</head>
+<body>
+<div class="appvue">
+    <h2>{{message}} {{name}}</h2>
+</div>
+</body>
+<script>
+    //引用vue
+    //let 变量 const 常量
+    const app= new Vue({//创建了一个vue实例
+        el: '.appvue',//第一个组件 绑定div绑定挂载的元素
+        data: {//第二个组件 定义数据
+            message: 'hello vue',//传达给被管理的div
+            name: "vue.js",
+            isagree: false,//默认不同意单选
+        },
+        mounted:function(){
+           
+        },
+    })
+</script>
+</html>

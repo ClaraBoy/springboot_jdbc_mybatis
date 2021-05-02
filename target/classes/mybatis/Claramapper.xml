@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.springboot_jdbc_mybatis.mappers.ClaraMapper">
+    <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where menucomment>=#{topiccomments} LIMIT 0,4
+  </select>
+    <select id="QueryAllMenuYear" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where year(menudate)>=#{year} LIMIT 0,4
+  </select>
+  <select id="QueryAllMenuCount" resultType="Integer">
+   SELECT count(*) from menu
+  </select>
+  <select id="QueryLists" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where rightto=1
+  </select>
+    <select id="QueryByDetails" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where menutitle=#{menutitle}
+    </select>
+  <select id="queryMenuList" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu
+  </select>
+  <select id="Queryuser" resultType="com.yu.springboot_jdbc_mybatis.pojo.User">
+    select * from users where uname=#{uname}
+  </select>
+    <select id="QueryComment" resultType="com.yu.springboot_jdbc_mybatis.pojo.Topiccomments">
+      select * from topiccomments where topictitle=#{topictitle}
+    </select>
+    <select id="QueryRepleComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
+      select * from replecomments where repletitle=#{repletitle}
+    </select>
+    <select id="Querynickname" resultType="com.yu.springboot_jdbc_mybatis.pojo.User">
+      SELECT uid,nickname from users
+    </select>
+    <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
+  </insert>
+  <insert id="addComment">
+    INSERT into topiccomments VALUES(#{id},#{topicid},#{topictitle},#{topictext},#{topicdate},#{topicred})
+  </insert>
+    <insert id="ReplyComment">
+      INSERT into replecomments VALUES(#{id},#{commentid},#{repleid},#{repleType},#{repletitle},#{repletext},#{fromusid},#{touid},#{repledate})
+    </insert>
+    <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    delete from menu where titleid=#{id}
+  </delete>
+  <delete id="deleteDetails" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    delete from menu where menuid=#{menuid}
+  </delete>
+  <delete id="deleteMenuAll" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    delete from
+    menu
+    where
+    menuid IN
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </delete>
+</mapper>
