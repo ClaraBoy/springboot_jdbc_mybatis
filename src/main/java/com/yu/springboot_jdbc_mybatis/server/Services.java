@@ -23,6 +23,10 @@ public class Services implements Services_in {
         return claramapper.Querynickname();
     }
     @Override
+    public int addUser(User user) {
+        return claramapper.addUser(user);
+    }
+    @Override
     public List<Menu> QueryAllMenuComments(int comments) {
         return claramapper.QueryAllMenuComments(comments);
     }

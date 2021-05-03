@@ -9,7 +9,6 @@ public class User {
     private int uid;
     private String uname;
     private  String upwd;
-    private String uphonenubmer;
     private  String uemile;
     private String upower;
     private  String nickname;

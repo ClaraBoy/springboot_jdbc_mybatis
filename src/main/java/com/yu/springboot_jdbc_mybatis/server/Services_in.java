@@ -13,6 +13,7 @@ public interface Services_in {
     //前台
     User Queryuser(String uname);//用户登陆
     List<User> Querynickname();//用户昵称
+    int addUser(User user);//用户注册
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法
     int QueryAllMenuCount();//内容条数

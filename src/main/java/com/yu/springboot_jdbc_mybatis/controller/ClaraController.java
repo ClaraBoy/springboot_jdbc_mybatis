@@ -1,21 +1,28 @@
 package com.yu.springboot_jdbc_mybatis.controller;
 import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
+import com.yu.springboot_jdbc_mybatis.tool.MailTool;
 import com.yu.springboot_jdbc_mybatis.tool.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 @RestController//@Controller+@ResponseBody联用
 // 但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
 //@Controller//在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面，若返回json等内容到页面，则需要加@ResponseBody注解
 @CrossOrigin//跨域问题
 
 public class ClaraController {
+    @Autowired
+    private MailTool mailTool;
     @Autowired//把服务层注册到web
     private Services services;
     @RequestMapping("/Ulogin")
@@ -35,6 +42,25 @@ public class ClaraController {
             }
         }
         return new LoginVo();
+    }
+    @RequestMapping("/addUser")
+    public int addUser(@RequestBody User registerinfo){
+        System.out.println(registerinfo.getUemile());
+          int success= services.addUser(new User(
+                    0,
+                    registerinfo.getUname(),
+                    registerinfo.getUpwd(),
+                    registerinfo.getUemile(),
+                    "普通",
+                    registerinfo.getNickname()
+                    ));
+          if(success==1){
+              Map<String, Object> valueMap = new HashMap<String, Object>();
+              valueMap.put("to", new String[]{registerinfo.getUemile()});
+              valueMap.put("title", "Clara Write");
+              mailTool.sendSimpleMail(valueMap);
+         }
+        return 1;
     }
     @RequestMapping("/Querynickname")
     public List<User> Querynickname(){//查询昵称
