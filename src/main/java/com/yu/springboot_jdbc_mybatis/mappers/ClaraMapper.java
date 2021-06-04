@@ -15,6 +15,7 @@ import java.util.Map;
 public interface ClaraMapper {//一个接口
     User Queryuser(String uname);//用户登陆
     List<User> Querynickname();//用户昵称
+    String QueryuserOnly(String uname,String uemile,String nickname);//查询单个用户
     int addUser(User user);//用户注册
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法

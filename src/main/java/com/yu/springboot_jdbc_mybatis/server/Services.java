@@ -27,6 +27,10 @@ public class Services implements Services_in {
         return claramapper.addUser(user);
     }
     @Override
+    public String QueryuserOnly(String uname, String uemile, String nickname) {
+        return claramapper.QueryuserOnly(uname,uemile,nickname);
+    }
+    @Override
     public List<Menu> QueryAllMenuComments(int comments) {
         return claramapper.QueryAllMenuComments(comments);
     }

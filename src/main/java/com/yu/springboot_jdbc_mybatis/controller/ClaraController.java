@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.annotation.Resource;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -46,21 +44,28 @@ public class ClaraController {
     @RequestMapping("/addUser")
     public int addUser(@RequestBody User registerinfo){
         System.out.println(registerinfo.getUemile());
-          int success= services.addUser(new User(
+        String info=services.QueryuserOnly(registerinfo.getUname(),registerinfo.getUemile(),registerinfo.getNickname());
+        System.out.println(info);
+        if(info==null) {
+            int success = services.addUser(new User(
                     0,
                     registerinfo.getUname(),
                     registerinfo.getUpwd(),
                     registerinfo.getUemile(),
                     "普通",
                     registerinfo.getNickname()
-                    ));
-          if(success==1){
-              Map<String, Object> valueMap = new HashMap<String, Object>();
-              valueMap.put("to", new String[]{registerinfo.getUemile()});
-              valueMap.put("title", "Clara Write");
-              mailTool.sendSimpleMail(valueMap);
-         }
-        return 1;
+            ));
+            if (success == 1) {
+                Map<String, Object> valueMap = new HashMap<String, Object>();
+                valueMap.put("to", new String[]{registerinfo.getUemile()});
+                valueMap.put("title", "Clara Write");
+                mailTool.sendSimpleMail(valueMap);
+                return 1;
+            }
+        }else{
+            return 0;
+        }
+        return 0;
     }
     @RequestMapping("/Querynickname")
     public List<User> Querynickname(){//查询昵称
