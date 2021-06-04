@@ -33,7 +33,10 @@
     <select id="Querynickname" resultType="com.yu.springboot_jdbc_mybatis.pojo.User">
       SELECT uid,nickname from users
     </select>
-    <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+  <select id="QueryuserOnly" resultType="java.lang.String">
+    select* from users where uname=#{uname} or uemile=#{uemile} or nickname=#{nickname}
+  </select>
+  <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
   <insert id="addComment">
