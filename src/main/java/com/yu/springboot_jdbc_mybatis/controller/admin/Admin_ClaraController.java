@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class Admin_ClaraController {
     public int deleteMenu(@RequestParam("delete") List delete) {//删除内容 删除评论
         System.out.println("这是删除");
         System.out.println(delete);
-        if (delete.size() <= 1) {
+        if (delete.size() <=1) {
             String meutitle = services.QueryById(Integer.parseInt(delete.get(0).toString()));
             services.deletetopiccomments(meutitle);
             services.deleteMenu(Integer.parseInt(delete.get(0).toString()));
@@ -45,8 +46,16 @@ public class Admin_ClaraController {
             @RequestParam("rightto") int rightto,
             @RequestParam("msg") String msg
     ) {//添加menu
-        System.out.println("这是添加" + titleid);
-        services.AddMenu(new Menu(0, menutitle, menudate, 0, 0, titleid, info1, info2, rightto, msg));
+        if(services.QueryByDetails(menutitle)==null){
+            System.out.println("这是添加" + titleid);
+            int s = services.AddMenu(new Menu(0, menutitle, menudate, 0, 0, titleid, info1, info2, rightto, msg));
+            if (s > 0) {
+                Menu menu = services.QueryByDetails(menutitle);
+                System.out.println("这是id");
+                services.Fortitleid(menu.getMenuid(), menu.getMenutitle());
+                return 1;
+            }
+        }
         return 0;//返回数据
     }
 

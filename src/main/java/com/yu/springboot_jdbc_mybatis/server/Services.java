@@ -56,6 +56,10 @@ public class Services implements Services_in {
         return claramapper.QueryByDetails(menutitle);
     }
     @Override
+    public void Fortitleid(int titleid,String menutitle) {
+        claramapper.Fortitleid(titleid,menutitle);
+    }
+    @Override
     public String QueryById(int menuid) {
         return claramapper.QueryById(menuid);
     }
