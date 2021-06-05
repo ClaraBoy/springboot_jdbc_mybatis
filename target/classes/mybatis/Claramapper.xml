@@ -13,7 +13,7 @@
     update menu set titleid=#{titleid} where menutitle=#{menutitle}
   </update>
   <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    select * from menu where menucomment>=#{topiccomments} LIMIT 0,4
+    select * from menu order by menucomment desc limit 0,4;
   </select>
     <select id="QueryAllMenuYear" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     select * from menu where year(menudate)>=#{year} LIMIT 0,4
