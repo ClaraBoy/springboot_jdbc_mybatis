@@ -110,6 +110,7 @@ public class ClaraController {
         System.out.println(menutitle);
         Menu all= services.QueryByDetails(menutitle);
         System.out.println(all);
+        services.UpadteMenured(menutitle);
         return  all;
         //返回数据
     }
@@ -132,6 +133,10 @@ public class ClaraController {
         System.out.println(info);
         int back= services.addComment(info);
         //System.out.println(back);
+        int menucomment= services.QueryTopiccommentscomment(info.getTopictitle());
+        if(menucomment!=0){
+                services.UpdateMenutitle(menucomment,info.getTopictitle());
+        }
         return back;
     }
     @RequestMapping("/QueryRepleComments")

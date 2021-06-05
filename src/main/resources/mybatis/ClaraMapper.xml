@@ -3,7 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yu.springboot_jdbc_mybatis.mappers.ClaraMapper">
-    <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+  <update id="UpdateMenutitle">
+    update menu set menucomment=#{menucomment} where menutitle=#{menutitle}
+  </update>
+  <update id="UpadteMenured">
+    update menu set menured=menured+1 where menutitle=#{menutitle}
+  </update>
+  <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     select * from menu where menucomment>=#{topiccomments} LIMIT 0,4
   </select>
     <select id="QueryAllMenuYear" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
@@ -36,6 +42,17 @@
   <select id="QueryuserOnly" resultType="java.lang.String">
     select* from users where uname=#{uname} or uemile=#{uemile} or nickname=#{nickname}
   </select>
+    <select id="QueryTopiccommentscomment" resultType="java.lang.Integer">
+      select count(*) from topiccomments where topictitle=(select menutitle from menu where menutitle=#{menutitle})
+    </select>
+  <select id="QueryById" resultType="java.lang.String">
+    select menutitle from menu where menuid=#{menuid}
+  </select>
+  <select id="QueryByIdall" resultType="java.lang.String">
+    select menutitle from menu where menuid in<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    #{item}
+  </foreach>
+  </select>
   <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
@@ -62,5 +79,13 @@
     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
       #{item}
     </foreach>
+  </delete>
+  <delete id="deletetopiccomments">
+    delete from topiccomments where topictitle=#{topictitle}
+  </delete>
+  <delete id="deletetopiccommentsall">
+        delete from topiccomments where topictitle in  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    #{item}
+  </foreach>
   </delete>
 </mapper>

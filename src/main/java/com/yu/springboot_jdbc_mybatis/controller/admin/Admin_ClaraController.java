@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 @RestController//@Controller+@ResponseBody联用
 // 但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
@@ -14,19 +17,24 @@ import java.util.List;
 public class Admin_ClaraController {
     @Autowired//把服务层注册到web
     private Services services;
+
     @RequestMapping("/deleteMenu")
-    public int deleteMenu(@RequestParam("delete") List delete){//删除内容
+    public int deleteMenu(@RequestParam("delete") List delete) {//删除内容 删除评论
         System.out.println("这是删除");
-        if(delete.size()<=1)
-        {
+        System.out.println(delete);
+        if (delete.size() <= 1) {
+            String meutitle = services.QueryById(Integer.parseInt(delete.get(0).toString()));
+            services.deletetopiccomments(meutitle);
             services.deleteMenu(Integer.parseInt(delete.get(0).toString()));
             services.deleteDetails(Integer.parseInt(delete.get(0).toString()));
         }
-        if(delete.size()>1){
+        if (delete.size() > 1) {
+            services.deletetopiccommentsall(services.QueryByIdall(delete));
             services.deleteMenuAll(delete);
         }
         return 0;//返回数据
     }
+
     @RequestMapping("/addMenu")
     public int addMenu(
             @RequestParam("menutitle") String menutitle,
@@ -36,10 +44,14 @@ public class Admin_ClaraController {
             @RequestParam("info2") String info2,
             @RequestParam("rightto") int rightto,
             @RequestParam("msg") String msg
-    )
-    {//添加menu
-        System.out.println("这是添加"+titleid);
-        services.AddMenu(new Menu(0,menutitle,menudate,0,0,titleid,info1,info2,rightto,msg));
+    ) {//添加menu
+        System.out.println("这是添加" + titleid);
+        services.AddMenu(new Menu(0, menutitle, menudate, 0, 0, titleid, info1, info2, rightto, msg));
         return 0;//返回数据
+    }
+
+    @RequestMapping("/test")
+    public int test() {
+        return 1;
     }
 }

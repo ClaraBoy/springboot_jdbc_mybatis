@@ -7,6 +7,7 @@ import com.yu.springboot_jdbc_mybatis.pojo.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -55,6 +56,16 @@ public class Services implements Services_in {
         return claramapper.QueryByDetails(menutitle);
     }
     @Override
+    public String QueryById(int menuid) {
+        return claramapper.QueryById(menuid);
+    }
+
+    @Override
+    public List<String> QueryByIdall(List<Integer> menuid) {
+        return claramapper.QueryByIdall(menuid);
+    }
+
+    @Override
     public List<Topiccomments> QueryComment(String topictitle) {
         return claramapper.QueryComment(topictitle);
     }
@@ -63,6 +74,18 @@ public class Services implements Services_in {
         return claramapper.addComment(topiccomments);
     }
 
+    @Override
+    public int QueryTopiccommentscomment(String menutitle) {
+        return claramapper.QueryTopiccommentscomment(menutitle);
+    }
+    @Override
+    public int UpdateMenutitle(int menucomment,String menutitle) {
+        return claramapper.UpdateMenutitle(menucomment,menutitle);
+    }
+    @Override
+    public void UpadteMenured(String menutitle) {
+        claramapper.UpadteMenured(menutitle);
+    }
     @Override
     public List<RepleComments> QueryRepleComments(String repletitle) {
         return claramapper.QueryRepleComments(repletitle);
@@ -80,6 +103,17 @@ public class Services implements Services_in {
     public int deleteDetails(int id) {
         return claramapper.deleteDetails(id);
     }
+
+    @Override
+    public void deletetopiccomments(String menutitle) {
+        claramapper.deletetopiccomments(menutitle);
+    }
+
+    @Override
+    public void deletetopiccommentsall(List<String> menutitle) {
+        claramapper.deletetopiccommentsall(menutitle);
+    }
+
     @Override
     public int deleteMenuAll(List<Integer> list) {
         return claramapper.deleteMenuAll(list);
