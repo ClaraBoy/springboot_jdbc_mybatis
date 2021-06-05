@@ -11,7 +11,7 @@
  Target Server Version : 80022
  File Encoding         : 65001
 
- Date: 05/06/2021 16:29:26
+ Date: 05/06/2021 19:31:46
 */
 
 SET NAMES utf8mb4;
@@ -27,19 +27,19 @@ CREATE TABLE `menu`  (
   `menudate` date NOT NULL,
   `menured` int(0) NOT NULL,
   `menucomment` int(0) NOT NULL,
-  `titleid` int(0) NOT NULL,
+  `titleid` int(0) NULL DEFAULT NULL,
   `info1` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
   `info2` varchar(60) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NULL DEFAULT NULL,
   `rightto` int(0) NOT NULL,
   `detailstext` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   PRIMARY KEY (`menuid`) USING BTREE,
-  UNIQUE INDEX `menutitle`(`menutitle`) USING BTREE,
-  UNIQUE INDEX `titleid`(`titleid`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+  UNIQUE INDEX `menutitle`(`menutitle`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of menu
 -- ----------------------------
+INSERT INTO `menu` VALUES (15, 'sadsadsad', '2021-06-05', 0, 0, 15, 's', 's', 0, '<h2><img src=\"http://img.baidu.com/hi/jx2/j_0003.gif\"/>添加内容</h2>');
 
 -- ----------------------------
 -- Table structure for replecomments
@@ -74,7 +74,7 @@ CREATE TABLE `topiccomments`  (
   `topicdate` date NOT NULL,
   `topicred` int(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_bin ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of topiccomments
@@ -100,6 +100,6 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (1, 'kkk', '123456', '1727493926@qq.com', '普通', 'dfhdfh');
+INSERT INTO `users` VALUES (1, '123', '123456', '1727493926@qq.com', '普通', '无尽');
 
 SET FOREIGN_KEY_CHECKS = 1;
