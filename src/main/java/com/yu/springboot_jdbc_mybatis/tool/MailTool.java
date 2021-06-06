@@ -42,7 +42,6 @@ public class MailTool {
           //  context.setVariable("number", "00000");
             String content = templateEngine.process("index", context);
             helper.setText(content, true);
-
             //发送邮件
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {

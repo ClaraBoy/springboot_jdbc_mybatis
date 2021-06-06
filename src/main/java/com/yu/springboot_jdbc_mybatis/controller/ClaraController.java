@@ -157,15 +157,22 @@ public class ClaraController {
     @RequestMapping("/sendmali")
     public ModelAndView  sendmali(Model model){
         System.out.println("这是邮件发送");
-        return new ModelAndView("index");//重定向
+        return new ModelAndView("index2");//重定向
     }
     //发送验证码
     @RequestMapping("/sendVerification")
     public int sendVerification(@RequestBody User geteali){
-        System.out.println(geteali.getUname()+"/"+geteali.getUemile());
-        int max=99999,min=1000;
-        long randomNum = System.currentTimeMillis();
-        int ran3 = (int) (randomNum%(max-min)+min);
-        return ran3;
+        User user=services.Queryuser(geteali.getUname());
+        if(user!=null){
+            if(user.getUemile().equals(geteali.getUemile())){
+                int max=99999,min=1000;
+                long randomNum = System.currentTimeMillis();
+                int ran3 = (int) (randomNum%(max-min)+min);
+                return ran3;
+            }
+            return -1;
+        }
+        // System.out.println(geteali.getUname()+"/"+geteali.getUemile());
+        return 0;
     }
 }
