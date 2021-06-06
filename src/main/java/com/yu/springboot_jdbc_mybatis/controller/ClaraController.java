@@ -4,9 +4,8 @@ import com.yu.springboot_jdbc_mybatis.server.Services;
 import com.yu.springboot_jdbc_mybatis.tool.MailTool;
 import com.yu.springboot_jdbc_mybatis.tool.Token;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -58,8 +57,8 @@ public class ClaraController {
             if (success == 1) {
                 Map<String, Object> valueMap = new HashMap<String, Object>();
                 valueMap.put("to", new String[]{registerinfo.getUemile()});
-                valueMap.put("title", "Clara Write");
-                mailTool.sendSimpleMail(valueMap);
+                valueMap.put("title","Clara Write");
+                mailTool.sendSimpleMail(valueMap,0);
                 return 1;
             }
         }else{
@@ -154,11 +153,11 @@ public class ClaraController {
         return back;
     }
     //发送邮件
-    @RequestMapping("/sendmali")
-    public ModelAndView  sendmali(Model model){
-        System.out.println("这是邮件发送");
-        return new ModelAndView("index2");//重定向
-    }
+//    @RequestMapping("/sendmali")
+//    public ModelAndView  sendmali(Model model){
+//        System.out.println("这是邮件发送");
+//        return new ModelAndView("index2");//重定向
+//    }
     //发送验证码
     @RequestMapping("/sendVerification")
     public int sendVerification(@RequestBody User geteali){
@@ -168,6 +167,12 @@ public class ClaraController {
                 int max=99999,min=1000;
                 long randomNum = System.currentTimeMillis();
                 int ran3 = (int) (randomNum%(max-min)+min);
+                HashMap<String, Object> map=new HashMap<>();
+                map.put("title","Clara Write");
+                map.put("to", new String[]{geteali.getUemile()});
+               map.put("Verification",ran3+"");
+               map.put("Nickname",user.getNickname());
+                mailTool.sendSimpleMail(map,1);
                 return ran3;
             }
             return -1;

@@ -4,48 +4,21 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-
 <body>
 <div style="width: 500px;
-			background-color: #FB5353;
-			text-align: center;
-			margin: 0 auto;">
-    <div><h2 style="text-align: center;
-			padding-top: 30px;
-			color: white		">Hello 欢迎加入 Clara 大家庭</h2></div>
+		color: black;
+					text-align: center;
+					margin: 0 auto;">
+    <div>
+        <span style="font-size: 56px;">亲爱的<span style="font-size: 30px; padding-left: 20px; padding-right: 20px;" th:text="${Nickname}"></span>您好</span>
+        <h2 style="text-align: center;
+					padding-top: 30px;
+					color: black		">更改密码</h2></div>
     <div>
         <h3 style="text-align: center;
-			padding-top: 30px;
-			color: white		">欢迎您的关注与注册</h3>
-    </div>
-    <div style="width: 500px;
-			height: 500px;
-			background-color: black;
-			margin: 0 auto;
-			color: white;
-			position: relative;">
-        <div style="	width: 300px;
-			height: auto;
-			margin-left: 140px;
-			padding-top: 120px;">
-            <h2 style="	width: 300px;
-			color: white;
-			word-wrap:break-word;
-			line-height: 40px;">
-                我想大部分人都知道通常一个程序员会具有的美德。当然了，有三种：懒惰，暴躁，傲慢。
-            </h2>
-            <h2>
-                Perl语言发明者Larry Wall
-            </h2>
-        </div>
-        <div style="	width: 100px;
-			background-color: #404040;
-			height: 500px;
-			left: 0;
-			position: absolute;
-			top: 0;
-			word-wrap: break-word;/*英文的时候需要加上这句，自动换行*/  ">
-        </div>
+					padding-top: 30px;
+					color: black		">验证码</h3>
+        <h2 style="padding-top: 30px; text-align: center;" th:text="${Verification}"></h2>
     </div>
 </div>
 </body>

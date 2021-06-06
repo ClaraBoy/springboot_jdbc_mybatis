@@ -21,7 +21,7 @@ public class MailTool {
     @Autowired
     private TemplateEngine templateEngine;
 
-    public void sendSimpleMail(Map<String, Object> valueMap) {
+    public void sendSimpleMail(Map<String, Object> valueMap,int of) {
         MimeMessage mimeMessage = null;
         try {
             mimeMessage = javaMailSender.createMimeMessage();
@@ -40,7 +40,13 @@ public class MailTool {
             Context context = new Context();
             context.setVariables(valueMap);
           //  context.setVariable("number", "00000");
-            String content = templateEngine.process("index", context);
+            String content=null;
+            if(of==0){
+                content = templateEngine.process("index", context);
+            }
+            if(of==1){
+                content = templateEngine.process("index2", context);
+            }
             helper.setText(content, true);
             //发送邮件
             javaMailSender.send(mimeMessage);
