@@ -159,4 +159,13 @@ public class ClaraController {
         System.out.println("这是邮件发送");
         return new ModelAndView("index");//重定向
     }
+    //发送验证码
+    @RequestMapping("/sendVerification")
+    public int sendVerification(@RequestBody User geteali){
+        System.out.println(geteali.getUname()+"/"+geteali.getUemile());
+        int max=99999,min=1000;
+        long randomNum = System.currentTimeMillis();
+        int ran3 = (int) (randomNum%(max-min)+min);
+        return ran3;
+    }
 }
