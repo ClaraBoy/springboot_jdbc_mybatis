@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -159,7 +160,7 @@ public class ClaraController {
 //        return new ModelAndView("index2");//重定向
 //    }
     //发送验证码
-    HashMap<String, String> mapCode=new HashMap<>();
+   HashMap<String, Object> mapCode=new HashMap<String, Object>();
     @RequestMapping("/sendVerification")
     public int sendVerification(@RequestBody User resetpwdinfo){
         User user=services.Queryuser(resetpwdinfo.getUname());
@@ -187,7 +188,23 @@ public class ClaraController {
         System.out.println("本地验证码:"+mapCode.get(resetpwdinfo.getUname()));
         if(mapCode.size()>0){
             if(mapCode.get(resetpwdinfo.getUname()).equals(resetpwdinfo.getVerificationCode())){
-                return true;
+               int of= services.UpdateUserPwd(resetpwdinfo);
+               if(of>=1){
+                   Iterator<String> iterator = mapCode.keySet().iterator();
+                   // 循环取键值进行判断
+                   while (iterator.hasNext()) {
+                       // 键
+                       String key = iterator.next();
+                       if (key.startsWith(resetpwdinfo.getUname())) {
+                           // 移除map中以a字符开头的键对应的键值对
+                           iterator.remove();
+                       }
+                   }
+                   return true;
+               }else{
+                   return false;
+               }
+
             }
             return false;
         }

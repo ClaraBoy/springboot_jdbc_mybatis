@@ -1,9 +1,6 @@
 package com.yu.springboot_jdbc_mybatis.server;
 import com.yu.springboot_jdbc_mybatis.mappers.ClaraMapper;
-import com.yu.springboot_jdbc_mybatis.pojo.RepleComments;
-import com.yu.springboot_jdbc_mybatis.pojo.Topiccomments;
-import com.yu.springboot_jdbc_mybatis.pojo.User;
-import com.yu.springboot_jdbc_mybatis.pojo.Menu;
+import com.yu.springboot_jdbc_mybatis.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +23,10 @@ public class Services implements Services_in {
     @Override
     public int addUser(User user) {
         return claramapper.addUser(user);
+    }
+    @Override
+    public int UpdateUserPwd(VerificationVo verificationVo) {
+        return claramapper.UpdateUserPwd(verificationVo);
     }
     @Override
     public String QueryuserOnly(String uname, String uemile, String nickname) {

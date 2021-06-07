@@ -1,8 +1,5 @@
 package com.yu.springboot_jdbc_mybatis.server;
-import com.yu.springboot_jdbc_mybatis.pojo.RepleComments;
-import com.yu.springboot_jdbc_mybatis.pojo.Topiccomments;
-import com.yu.springboot_jdbc_mybatis.pojo.User;
-import com.yu.springboot_jdbc_mybatis.pojo.Menu;
+import com.yu.springboot_jdbc_mybatis.pojo.*;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,6 +10,7 @@ public interface Services_in {
     User Queryuser(String uname);//用户登陆
     List<User> Querynickname();//用户昵称
     int addUser(User user);//用户注册
+    int UpdateUserPwd(VerificationVo verificationVo);//修改密码
     String QueryuserOnly(String uname,String uemile,String nickname);//查询单个用户
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法

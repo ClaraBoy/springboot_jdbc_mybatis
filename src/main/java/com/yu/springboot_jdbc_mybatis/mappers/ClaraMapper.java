@@ -1,8 +1,5 @@
 package com.yu.springboot_jdbc_mybatis.mappers;
-import com.yu.springboot_jdbc_mybatis.pojo.RepleComments;
-import com.yu.springboot_jdbc_mybatis.pojo.User;
-import com.yu.springboot_jdbc_mybatis.pojo.Topiccomments;
-import com.yu.springboot_jdbc_mybatis.pojo.Menu;
+import com.yu.springboot_jdbc_mybatis.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +16,7 @@ public interface ClaraMapper {//一个接口
     List<User> Querynickname();//用户昵称
     String QueryuserOnly(String uname,String uemile,String nickname);//查询单个用户
     int addUser(User user);//用户注册
+    int UpdateUserPwd(VerificationVo verificationVo);//修改密码
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法
     int QueryAllMenuCount();//内容条数
