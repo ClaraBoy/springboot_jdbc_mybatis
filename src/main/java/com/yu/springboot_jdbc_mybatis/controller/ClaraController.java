@@ -159,25 +159,39 @@ public class ClaraController {
 //        return new ModelAndView("index2");//重定向
 //    }
     //发送验证码
+    HashMap<String, String> mapCode=new HashMap<>();
     @RequestMapping("/sendVerification")
-    public int sendVerification(@RequestBody User geteali){
-        User user=services.Queryuser(geteali.getUname());
+    public int sendVerification(@RequestBody User resetpwdinfo){
+        User user=services.Queryuser(resetpwdinfo.getUname());
         if(user!=null){
-            if(user.getUemile().equals(geteali.getUemile())){
+            if(user.getUemile().equals(resetpwdinfo.getUemile())){
                 int max=99999,min=1000;
                 long randomNum = System.currentTimeMillis();
                 int ran3 = (int) (randomNum%(max-min)+min);
                 HashMap<String, Object> map=new HashMap<>();
                 map.put("title","Clara Write");
-                map.put("to", new String[]{geteali.getUemile()});
+                map.put("to", new String[]{user.getUemile()});
                map.put("Verification",ran3+"");
                map.put("Nickname",user.getNickname());
                 mailTool.sendSimpleMail(map,1);
-                return ran3;
+                mapCode.put(user.getUname(),ran3+"");
+                return 1;
             }
             return -1;
         }
         // System.out.println(geteali.getUname()+"/"+geteali.getUemile());
         return 0;
     }
+    @RequestMapping("/verification")
+   public Boolean verification(@RequestBody VerificationVo resetpwdinfo){
+        System.out.println("本地验证码:"+mapCode.get(resetpwdinfo.getUname()));
+        if(mapCode.size()>0){
+            if(mapCode.get(resetpwdinfo.getUname()).equals(resetpwdinfo.getVerificationCode())){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
+
 }
