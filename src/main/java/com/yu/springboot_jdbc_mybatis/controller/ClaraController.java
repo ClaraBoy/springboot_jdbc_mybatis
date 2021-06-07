@@ -186,6 +186,9 @@ public class ClaraController {
     @RequestMapping("/verification")
    public Boolean verification(@RequestBody VerificationVo resetpwdinfo){
         System.out.println("本地验证码:"+mapCode.get(resetpwdinfo.getUname()));
+        if(mapCode.get(resetpwdinfo.getUname())==null){
+        return false;
+        }
         if(mapCode.size()>0){
             if(mapCode.get(resetpwdinfo.getUname()).equals(resetpwdinfo.getVerificationCode())){
                int of= services.UpdateUserPwd(resetpwdinfo);
@@ -204,11 +207,9 @@ public class ClaraController {
                }else{
                    return false;
                }
-
             }
             return false;
         }
         return false;
     }
-
 }
