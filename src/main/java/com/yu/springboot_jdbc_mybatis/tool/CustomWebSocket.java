@@ -57,8 +57,14 @@ public class CustomWebSocket {
      * @param session
      */
     @OnMessage
-    public void onMessage(String message, Session session) {
+    public void onMessage(String message, Session session) throws IOException {
         System.out.println("客户端发送的消息：" + message);
+        if(message.equals("200")){
+            System.out.println("成功");
+            sendMessage("200");
+        }else {
+            sendMessage("400");
+        }
     }
     /**
      * 暴露给外部的群发
@@ -132,5 +138,9 @@ public class CustomWebSocket {
         //获取session远程基本连接发送文本消息
         this.session.getBasicRemote().sendText(message);
         //this.session.getAsyncRemote().sendText(message);
+    }
+    @Test
+    public void sss() throws IOException {
+        CustomWebSocket.sendInfo("Hello,kungfupeng!");
     }
 }
