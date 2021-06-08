@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 //操作类别
 //端口号
-@ServerEndpoint(value = "/tests")
+@ServerEndpoint(value = "/count")
 @Component
 public class CustomWebSocket {
     /**
@@ -58,13 +58,13 @@ public class CustomWebSocket {
      */
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        System.out.println("客户端发送的消息：" + message);
-        if(message.equals("200")){
-            System.out.println("成功");
-            sendMessage("200");
-        }else {
-            sendMessage("400");
-        }
+        System.out.println("客户端发送统计在线人数的消息：" + message);
+//        if(message.equals("200")){
+//            System.out.println("成功");
+//            sendMessage("200");
+//        }else {
+//            sendMessage("400");
+//        }
     }
     /**
      * 暴露给外部的群发
