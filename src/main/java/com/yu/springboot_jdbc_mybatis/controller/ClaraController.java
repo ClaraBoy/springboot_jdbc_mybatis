@@ -1,17 +1,18 @@
 package com.yu.springboot_jdbc_mybatis.controller;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
 import com.yu.springboot_jdbc_mybatis.tool.MailTool;
 import com.yu.springboot_jdbc_mybatis.tool.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 @RestController//@Controller+@ResponseBody联用
 // 但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
@@ -23,6 +24,15 @@ public class ClaraController {
     private MailTool mailTool;
     @Autowired//把服务层注册到web
     private Services services;
+    final static Cache<String, String> cache = CacheBuilder.newBuilder()
+            //设置cache的初始大小为10，要合理设置该值
+            .initialCapacity(100)
+            //设置并发数为5，即同一时间最多只能有5个线程往cache执行写入操作
+            .concurrencyLevel(5)
+            //设置cache中的数据在写入之后的存活时间为10秒
+            .expireAfterWrite(500, TimeUnit.SECONDS)
+            //构建cache实例
+            .build();
     @RequestMapping("/Ulogin")
     public LoginVo Queryuser(@RequestBody User info) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         User user=services.Queryuser(info.getUname());
@@ -160,7 +170,7 @@ public class ClaraController {
 //        return new ModelAndView("index2");//重定向
 //    }
     //发送验证码
-   HashMap<String, Object> mapCode=new HashMap<String, Object>();
+   //HashMap<String, Object> mapCode=new HashMap<String, Object>();
     @RequestMapping("/sendVerification")
     public int sendVerification(@RequestBody User resetpwdinfo){
         User user=services.Queryuser(resetpwdinfo.getUname());
@@ -175,7 +185,7 @@ public class ClaraController {
                map.put("Verification",ran3+"");
                map.put("Nickname",user.getNickname());
                 mailTool.sendSimpleMail(map,1);
-                mapCode.put(user.getUname(),ran3+"");
+                cache.put(user.getUname(),ran3+"");
                 return 1;
             }
             return -1;
@@ -185,24 +195,25 @@ public class ClaraController {
     }
     @RequestMapping("/verification")
    public Boolean verification(@RequestBody VerificationVo resetpwdinfo){
-        System.out.println("本地验证码:"+mapCode.get(resetpwdinfo.getUname()));
-        if(mapCode.get(resetpwdinfo.getUname())==null){
+        System.out.println("本地验证码:"+cache.getIfPresent(resetpwdinfo.getUname()));
+        if(cache.getIfPresent(resetpwdinfo.getUname())==null){
         return false;
         }
-        if(mapCode.size()>0){
-            if(mapCode.get(resetpwdinfo.getUname()).equals(resetpwdinfo.getVerificationCode())){
+        if(cache.size()>0){
+            if(cache.getIfPresent(resetpwdinfo.getUname()).equals(resetpwdinfo.getVerificationCode())){
                int of= services.UpdateUserPwd(resetpwdinfo);
                if(of>=1){
-                   Iterator<String> iterator = mapCode.keySet().iterator();
-                   // 循环取键值进行判断
-                   while (iterator.hasNext()) {
-                       // 键
-                       String key = iterator.next();
-                       if (key.startsWith(resetpwdinfo.getUname())) {
-                           // 移除map中以a字符开头的键对应的键值对
-                           iterator.remove();
-                       }
-                   }
+//                   Iterator<String> iterator = mapCode.keySet().iterator();
+//                   // 循环取键值进行判断
+//                   while (iterator.hasNext()) {
+//                       // 键
+//                       String key = iterator.next();
+//                       if (key.startsWith(resetpwdinfo.getUname())) {
+//                           // 移除map中以a字符开头的键对应的键值对
+//                           iterator.remove();
+//                       }
+//                   }
+                   cache.invalidate(resetpwdinfo.getUname());
                    return true;
                }else{
                    return false;
