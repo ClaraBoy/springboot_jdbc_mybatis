@@ -18,6 +18,12 @@ public interface ClaraMapper {//一个接口
     int addUser(User user);//用户注册
     int UpdateUserPwd(VerificationVo verificationVo);//修改密码
     String QueryemileByNickname(String nickname);//获取邮箱
+    int addLuckUser(String nickname,int sing);//音乐用户
+    Song QuerySongUrl();//查询歌曲
+     int UpdateSongNumber();//修改今日歌曲人数
+    void DeleteLuckUser();//清空音乐用户
+    void DeletSongUrl();//清空歌曲
+    LuckUser QueryLuckUser(String nickname);//根据名称查询用户
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法
     int QueryAllMenuCount();//内容条数
@@ -41,4 +47,5 @@ public interface ClaraMapper {//一个接口
     void deletetopiccomments(String menutitle);//删除评论单个
     void deletetopiccommentsall(List<String> menutitle);//删除评论多行
     int deleteMenuAll(List<Integer> list);//批量删除
+    //int addSongUrl();//插入歌曲
 }

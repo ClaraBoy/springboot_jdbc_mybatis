@@ -15,7 +15,10 @@
     <update id="UpdateUserPwd">
       update users set upwd=#{upwd} where uname=#{uname} and uemile=#{uemile}
     </update>
-    <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+  <update id="UpdateSongNumber">
+         update song set ofNumber=ofNumber-1
+  </update>
+  <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     select * from menu order by menucomment desc limit 0,4;
   </select>
     <select id="QueryAllMenuYear" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
@@ -62,7 +65,13 @@
     <select id="QueryemileByNickname" resultType="java.lang.String">
       SELECT uemile from users where nickname=#{nickname}
     </select>
-    <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+  <select id="QueryLuckUser" resultType="com.yu.springboot_jdbc_mybatis.pojo.LuckUser">
+    SELECT * from luckuser where nickname=#{nickname}
+  </select>
+  <select id="QuerySongUrl" resultType="com.yu.springboot_jdbc_mybatis.pojo.Song">
+        SELECT * from song
+  </select>
+  <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
   <insert id="addComment">
@@ -74,7 +83,10 @@
   <insert id="addUser">
     INSERT into users value(#{uid},#{uname},#{upwd},#{uemile},#{upower},#{nickname})
   </insert>
-  <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    <insert id="addLuckUser">
+      INSERT into luckuser (id,nickname,sing) value(0,#{nickname},#{sing})
+    </insert>
+    <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     delete from menu where titleid=#{id}
   </delete>
   <delete id="deleteDetails" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
@@ -96,5 +108,11 @@
         delete from topiccomments where topictitle in  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
     #{item}
   </foreach>
+  </delete>
+  <delete id="DeleteLuckUser">
+    delete from luckuser
+  </delete>
+  <delete id="DeletSongUrl">
+    delete from song
   </delete>
 </mapper>

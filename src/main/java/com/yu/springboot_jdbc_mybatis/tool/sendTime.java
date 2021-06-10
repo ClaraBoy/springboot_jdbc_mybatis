@@ -1,17 +1,21 @@
 package com.yu.springboot_jdbc_mybatis.tool;
+import com.yu.springboot_jdbc_mybatis.server.Services;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
-//暂时不使用的功能
+//定时清除数据表
 public  class  sendTime {
-    static  String executeTime = "15:30:00";
+    static  String executeTime = "00:00:00";
     static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     static DateFormat dayFormat = new SimpleDateFormat("yyyy-MM-dd");
     static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     static ArrayList<HashMap<String, String>> ReceiveMap=new ArrayList<>();
-    public void sendTime(HashMap<String, String> map, String url,int s,String nickname) {
-        ReceiveMap.add(map);
+    @Autowired//把服务层注册到web
+    private Services services;
+    public void sendTime() {
         try {
             //定时器
             Timer timer = new Timer();
@@ -24,15 +28,9 @@ public  class  sendTime {
                     System.out.println("当前时间" + ti.getTime());
                     System.out.println("固定时间" + startTime.getTime());
                     if (ti.getTime() == startTime.getTime()) {
-                        try {
-                            System.out.println(ReceiveMap.get(s).get(nickname));
-                            System.out.println("时间到了 发送邮件");
-                            //利用异常来跳出线程
-                            int is=1/0;
-                        }catch (Exception e){
-                            System.out.println("结束线程");
-                            throw new RuntimeException("模拟异常");
-                        }
+                            System.out.println("时间到了 清空数据");
+                            services.DeleteLuckUser();
+                            services.DeletSongUrl();
                     }
                 }
             }, 1000, 1000);

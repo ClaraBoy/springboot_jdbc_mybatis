@@ -12,6 +12,12 @@ public interface Services_in {
     int addUser(User user);//用户注册
     int UpdateUserPwd(VerificationVo verificationVo);//修改密码
     String QueryemileByNickname(String nickname);//获取邮箱
+    int addLuckUser(String nickname,int sing);//插入音乐用户
+    Song QuerySongUrl();//查询歌曲
+    int UpdateSongNumber();//修改今日歌曲人数
+    void DeleteLuckUser();//清空音乐用户
+    void DeletSongUrl();//清空歌曲
+    LuckUser QueryLuckUser(String nickname);//根据名称查询音乐用户
     String QueryuserOnly(String uname,String uemile,String nickname);//查询单个用户
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法

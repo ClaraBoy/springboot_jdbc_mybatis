@@ -4,9 +4,7 @@ import com.yu.springboot_jdbc_mybatis.pojo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class Services implements Services_in {
@@ -31,6 +29,30 @@ public class Services implements Services_in {
     @Override
     public String QueryemileByNickname(String nickname) {
         return claramapper.QueryemileByNickname(nickname);
+    }
+    @Override
+    public int addLuckUser(String nickname, int sing) {
+        return claramapper.addLuckUser(nickname,sing);
+    }
+    @Override
+    public Song QuerySongUrl() {
+        return claramapper.QuerySongUrl();
+    }
+    @Override
+    public int UpdateSongNumber() {
+        return claramapper.UpdateSongNumber();
+    }
+    @Override
+    public void DeleteLuckUser() {
+        claramapper.DeleteLuckUser();
+    }
+    @Override
+    public void DeletSongUrl() {
+        claramapper.DeletSongUrl();
+    }
+    @Override
+    public LuckUser QueryLuckUser(String nickname) {
+        return claramapper.QueryLuckUser(nickname);
     }
     @Override
     public String QueryuserOnly(String uname, String uemile, String nickname) {

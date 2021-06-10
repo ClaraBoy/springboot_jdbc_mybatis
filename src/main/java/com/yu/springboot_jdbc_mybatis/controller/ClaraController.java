@@ -18,8 +18,10 @@ import java.util.concurrent.TimeUnit;
 //@Controller//在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面，若返回json等内容到页面，则需要加@ResponseBody注解
 @CrossOrigin//跨域问题
 public class ClaraController {
-        static HashMap<String, String> SendUrl=new HashMap();
-        static sendTime sendTime=new sendTime();
+    static {
+            sendTime sendTime=new sendTime();
+            sendTime.sendTime();
+    }
     @Autowired
     private MailTool mailTool;
     @Autowired//把服务层注册到web
@@ -133,7 +135,6 @@ public class ClaraController {
         return all;
         //返回数据
     }
-
     //返回评论
     @RequestMapping("/QueryComment")
     public List<Topiccomments> QueryComment(@RequestParam("topictitle") String topictitle) {
@@ -254,30 +255,38 @@ public class ClaraController {
         // 超过返回false  不会锁死
         Boolean a = monitor.tryEnterIf(listBelowCapacity);
         try {
+            System.out.println("名额"+services.QuerySongUrl().getOfNumber());
+            yys=services.QuerySongUrl().getOfNumber();
+            services.UpdateSongNumber();
             System.out.println("获取成功" + yys--);
         } finally { // 确保线程会推出Monitor锁
             monitor.leave();
         }
     }
-    HashMap<String, Integer> monitormap = new HashMap<>();
+    LuckUser luckUser=null;
+    Song song=null;
     @RequestMapping("/monitor")
     public String monitor(@RequestParam("nickname") String nickname) throws InterruptedException {
-            if(monitormap.get(nickname)==null){
-                try {
-                    if (yys >0) {
-                        //SendUrl.put(nickname,services.QueryemileByNickname(nickname));
-                       // sendTime.sendTime(SendUrl,"url",yys,nickname);
-                        Obtain();
-                        monitormap.put(nickname, 1);
-                        return "https://music.163.com/#/song?id=1851344107";
-                    } else {
-                        return "已无名额";
-                    }
-                } catch (Exception e) {
+        luckUser = services.QueryLuckUser(nickname);
+         song = services.QuerySongUrl();
+        if (song == null) {
+            return "系统暂未初始化";
+        } else {
+        if (luckUser == null) {
+            try {
+                if (yys > 0) {
+                    Obtain();
+                    services.addLuckUser(nickname, 1);
+                    return song.getSongurl();
+                } else {
                     return "已无名额";
                 }
-            }else {
-                return "你已拥有名额";
+            } catch (Exception e) {
+                return "已无名额";
             }
+        } else {
+            return "你已拥有名额";
+        }
+    }
     }
 }
