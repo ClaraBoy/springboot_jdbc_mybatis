@@ -17,6 +17,7 @@ public interface ClaraMapper {//一个接口
     String QueryuserOnly(String uname,String uemile,String nickname);//查询单个用户
     int addUser(User user);//用户注册
     int UpdateUserPwd(VerificationVo verificationVo);//修改密码
+    String QueryemileByNickname(String nickname);//获取邮箱
     List<Menu> QueryAllMenuComments(int comments);//一个查询评论选项卡的方法
     List<Menu> QueryAllMenuYear(String year);//一个查询年选项卡的方法
     int QueryAllMenuCount();//内容条数

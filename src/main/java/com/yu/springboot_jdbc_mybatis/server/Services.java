@@ -29,6 +29,10 @@ public class Services implements Services_in {
         return claramapper.UpdateUserPwd(verificationVo);
     }
     @Override
+    public String QueryemileByNickname(String nickname) {
+        return claramapper.QueryemileByNickname(nickname);
+    }
+    @Override
     public String QueryuserOnly(String uname, String uemile, String nickname) {
         return claramapper.QueryuserOnly(uname,uemile,nickname);
     }

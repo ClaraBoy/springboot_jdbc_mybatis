@@ -4,8 +4,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.util.concurrent.Monitor;
 import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
-import com.yu.springboot_jdbc_mybatis.tool.MailTool;
-import com.yu.springboot_jdbc_mybatis.tool.Token;
+import com.yu.springboot_jdbc_mybatis.tool.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.lang.reflect.Constructor;
@@ -14,17 +13,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
-
 @RestController//@Controller+@ResponseBody联用
 // 但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
 //@Controller//在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面，若返回json等内容到页面，则需要加@ResponseBody注解
 @CrossOrigin//跨域问题
-
 public class ClaraController {
+        static HashMap<String, String> SendUrl=new HashMap();
+        static sendTime sendTime=new sendTime();
     @Autowired
     private MailTool mailTool;
     @Autowired//把服务层注册到web
     private Services services;
+
     final static Cache<String, String> cache = CacheBuilder.newBuilder()
             //设置cache的初始大小为10，要合理设置该值
             .initialCapacity(100)
@@ -177,7 +177,6 @@ public class ClaraController {
         int back = services.ReplyComment(new RepleComments(0, repleinfo.getCommentid(), repleinfo.getRepleid(), repleinfo.getRepleType(), repleinfo.getRepletitle(), repleinfo.getRepletext(), repleinfo.getFromusid(), repleinfo.getTouid(), new Token().getTime()));
         return back;
     }
-
     //发送邮件
 //    @RequestMapping("/sendmali")
 //    public ModelAndView  sendmali(Model model){
@@ -239,10 +238,9 @@ public class ClaraController {
         }
         return false;
     }
-
     private static final int MAX_SIZE = 0;
     private Monitor monitor = new Monitor();
-    static Integer yys = 50;
+    static Integer yys = 60;
     Monitor.Guard listBelowCapacity = new
             Monitor.Guard(monitor) {
                 @Override
@@ -250,11 +248,9 @@ public class ClaraController {
                     return yys > MAX_SIZE;
                 }
             };
-
     public void Obtain() throws InterruptedException {
         // 超过MAX_SIZE， 会锁死
         //monitor.enterWhen(listBelowCapacity);
-
         // 超过返回false  不会锁死
         Boolean a = monitor.tryEnterIf(listBelowCapacity);
         try {
@@ -266,14 +262,14 @@ public class ClaraController {
     HashMap<String, Integer> monitormap = new HashMap<>();
     @RequestMapping("/monitor")
     public String monitor(@RequestParam("nickname") String nickname) throws InterruptedException {
-        System.out.println(monitormap);
-        System.out.println(nickname);
             if(monitormap.get(nickname)==null){
                 try {
-                    if (yys > 0) {
+                    if (yys >0) {
+                        //SendUrl.put(nickname,services.QueryemileByNickname(nickname));
+                       // sendTime.sendTime(SendUrl,"url",yys,nickname);
                         Obtain();
                         monitormap.put(nickname, 1);
-                        return "获取名额成功";
+                        return "https://music.163.com/#/song?id=1851344107";
                     } else {
                         return "已无名额";
                     }
