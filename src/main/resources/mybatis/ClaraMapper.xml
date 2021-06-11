@@ -75,7 +75,7 @@
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
   <insert id="addComment">
-    INSERT into topiccomments VALUES(#{id},#{topicid},#{topictitle},#{topictext},#{topicdate},#{topicred})
+    INSERT into topiccomments VALUES(#{id},#{topicname},#{topictitle},#{topictext},#{topicdate},#{topicred})
   </insert>
     <insert id="ReplyComment">
       INSERT into replecomments VALUES(#{id},#{commentid},#{repleid},#{repleType},#{repletitle},#{repletext},#{fromusid},#{touid},#{repledate})

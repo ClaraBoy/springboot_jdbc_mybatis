@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor//有参构造
 public class Topiccomments {
     private int id;
-    private String topicid;
+    private String topicname;
     private String topictitle;
     private String topictext;
     private String topicdate;
