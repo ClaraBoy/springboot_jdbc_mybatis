@@ -58,7 +58,15 @@ public class Admin_ClaraController {
         }
         return 0;//返回数据
     }
-
+        @RequestMapping("/addSongUrl")//插入url数据
+        public String addSongUrl(@RequestParam("songurl") String songurl){
+        if(services.QuerySongUrl()==null){
+            services.addSongUrl(songurl);
+            return "成功";
+        }else{
+            return "数据不为空";
+        }
+        }
     @RequestMapping("/test")
     public int test() {
         return 1;
