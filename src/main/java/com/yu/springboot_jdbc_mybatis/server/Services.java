@@ -5,9 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
-@Service
-public class Services implements Services_in {
+@Service("Services")
+public  class  Services implements Services_in {
     @Autowired
     ClaraMapper claramapper;
     @Override
