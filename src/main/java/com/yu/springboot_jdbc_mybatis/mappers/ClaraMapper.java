@@ -30,6 +30,7 @@ public interface ClaraMapper {//一个接口
     List<Menu> QueryLists(int RigHtTo);//普通全部内容
     List<Menu> queryMenuList();//全部内容
     Menu QueryByDetails(String menutitle);//通过标题查询内容
+    List<Menu> QueryByDetaileLike(String menutitle);//根据标题模查询
     void Fortitleid(int titleid,String menutitle);//修改titleid
     String QueryById(int menuid);//通过id查标题单个
     List<String> QueryByIdall(List<Integer> menuid);//通过id查标题多行

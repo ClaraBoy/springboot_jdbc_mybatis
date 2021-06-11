@@ -101,6 +101,12 @@ public  class  Services implements Services_in {
     }
 
     @Override
+    public List<Menu> QueryByDetaileLike(String menutitle) {
+        return claramapper.QueryByDetaileLike(menutitle);
+    }
+
+
+    @Override
     public void Fortitleid(int titleid,String menutitle) {
         claramapper.Fortitleid(titleid,menutitle);
     }

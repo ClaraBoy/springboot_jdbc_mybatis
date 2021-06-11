@@ -6,13 +6,12 @@ import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
 import com.yu.springboot_jdbc_mybatis.tool.*;
 import lombok.SneakyThrows;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.PostConstruct;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -154,13 +153,20 @@ public class ClaraController {
     }
 
     @RequestMapping("/Details")
-    public Menu QueryByDetails(@RequestParam("menutitle") String menutitle) {//返回所有内容
+    public Menu QueryByDetails(@RequestParam("menutitle") String menutitle) {//根据标题查询内容
         System.out.println(menutitle);
         Menu all = services.QueryByDetails(menutitle);
         System.out.println(all);
         services.UpadteMenured(menutitle);
         return all;
         //返回数据
+    }
+    @RequestMapping("/DetaileLick")
+    public List<Menu> DetaileLike(@RequestParam("menutitle") String menutitle){
+        System.out.println("模糊查询"+menutitle);
+        List<Menu> all=services.QueryByDetaileLike(menutitle);
+        System.out.println(all);
+        return all;
     }
     //返回评论
     @RequestMapping("/QueryComment")
