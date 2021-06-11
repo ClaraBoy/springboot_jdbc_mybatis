@@ -71,6 +71,10 @@
   <select id="QuerySongUrl" resultType="com.yu.springboot_jdbc_mybatis.pojo.Song">
         SELECT * from song
   </select>
+  <select id="QueryByDetaileLike" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    <bind name="menutitle" value="'%' + menutitle + '%'"/>
+    select * from menu where menutitle like #{menutitle}
+  </select>
   <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
