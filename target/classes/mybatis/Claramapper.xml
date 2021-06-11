@@ -86,6 +86,9 @@
     <insert id="addLuckUser">
       INSERT into luckuser (id,nickname,sing) value(0,#{nickname},#{sing})
     </insert>
+    <insert id="addSongUrl">
+      insert into song values(0,#{songurl},60)
+    </insert>
     <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     delete from menu where titleid=#{id}
   </delete>
