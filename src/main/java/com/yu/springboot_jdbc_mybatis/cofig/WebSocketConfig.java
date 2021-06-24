@@ -1,9 +1,9 @@
 package com.yu.springboot_jdbc_mybatis.cofig;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.server.standard.ServerEndpointExporter;
 @Configuration
+//长连接的配置文件
 public class WebSocketConfig {
     /**
      * 注入ServerEndpointExporter，

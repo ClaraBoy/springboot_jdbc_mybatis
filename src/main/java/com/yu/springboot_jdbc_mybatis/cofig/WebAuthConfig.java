@@ -4,6 +4,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import javax.annotation.Resource;
 @Configuration
+//拦截器配置
 public class WebAuthConfig extends WebMvcConfigurationSupport {
     @Resource
     private TokenInterceptor tokenInterceptor;

@@ -1,13 +1,12 @@
 package com.yu.springboot_jdbc_mybatis.tool;
-
 import org.springframework.stereotype.Component;
-
+import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.concurrent.CopyOnWriteArraySet;
-
-//心跳测试
+//心跳测试 心跳 使用于页面更新
+@CrossOrigin//跨域问题
 @ServerEndpoint(value = "/The_heartbeat")
 @Component
 public class CustomWebSocket_The_heartbeat {
