@@ -18,8 +18,27 @@ spring:
           auth: true
           starttls:
           enable: true
+  redis:
+    # 地址
+    host: 172.30.96.1
+    # 端口号
+    port: 6379
+    # 密码
+    # password: 123456
+    # 超时时间，单位毫秒
+    timeout: 3000
+    # 数据库编号
+    database: 0
+    # 配置lettuce
 mybatis:
   type-aliases-package: com.yu.springboot_jdbc_mybatis.pojo
   mapper-locations: classpath:mybatis\*.xml
 server:
   port: 9000
+logging:
+  level:
+    root: info
+    com.example.spring_boot_new_.controller: debug #日志级别
+  file:
+    name: run.log
+    path: ./
