@@ -33,15 +33,13 @@ public interface Services_in {
     void UpadteMenured(String menutitle);//访问量
     List<RepleComments>QueryRepleComments(String repletitle);//根查询
     int ReplyComment(RepleComments repleComments);//回复评论
-<<<<<<< HEAD
 
 
 
 
 
 
-=======
->>>>>>> 8dfc868e68623696c932ca1c2f1f69bdc4530449
+
     //后台
     int AddMenu(Menu menu);//添加menu
     int deleteMenu(int id);//删除menu

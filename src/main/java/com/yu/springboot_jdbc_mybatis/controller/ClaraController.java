@@ -317,20 +317,14 @@ public class ClaraController {
     }
     LuckUser luckUser=null;
     Song song=null;
-<<<<<<< HEAD
     @RequestMapping("/monitor/{nickname}/{token}")
     public String monitor(@PathVariable("nickname") String nickname,@PathVariable("token") String token) throws InterruptedException {
         System.out.println(token);
 //        System.out.println(nickname+"/"+token);
 //        System.out.println(redisTemplate.opsForValue().get(token));
-        if(redisTemplate.opsForValue().get(nickname+"token")==null){
-                return "403";
+        if (redisTemplate.opsForValue().get(nickname + "token") == null) {
+            return "403";
         }
-=======
-    //获取签到音乐
-    @RequestMapping("/monitor")
-    public String monitor(@RequestParam("nickname") String nickname) throws InterruptedException {
->>>>>>> 8dfc868e68623696c932ca1c2f1f69bdc4530449
         luckUser = services.QueryLuckUser(nickname);
          song = services.QuerySongUrl();
         if (song == null) {
