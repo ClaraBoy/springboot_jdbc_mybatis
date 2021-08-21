@@ -3,6 +3,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import javax.annotation.Resource;
+/**
+ * @author Clara
+ */
 @Configuration
 public class WebAuthConfig extends WebMvcConfigurationSupport {
     @Resource

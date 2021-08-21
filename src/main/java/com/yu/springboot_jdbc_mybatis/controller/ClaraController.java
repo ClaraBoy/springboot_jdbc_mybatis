@@ -6,10 +6,9 @@ import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
 import com.yu.springboot_jdbc_mybatis.tool.*;
 import lombok.SneakyThrows;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
-import javax.annotation.PostConstruct;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
@@ -21,11 +20,22 @@ import java.util.concurrent.TimeUnit;
 //@Controller//在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面，若返回json等内容到页面，则需要加@ResponseBody注解
 @CrossOrigin//跨域问题
 public class ClaraController {
-    @Autowired
     private MailTool mailTool;
-    @Autowired//把服务层注册到web
+    @Autowired
+    public void setMailTool(MailTool mailTool) {
+        this.mailTool = mailTool;
+    }
     private Services services;
-    @PostConstruct
+    @Autowired//把服务层注册到web
+    public void setServices(Services services) {
+        this.services = services;
+    }
+    private RedisTemplate redisTemplate;
+    @Autowired
+    public void setRedisTemplate(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+//    @PostConstruct
     public void sendTimeTo() {
          String executeTime = "00:00:00";
          DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -75,6 +85,11 @@ public class ClaraController {
                 String token = Buildtoken.sign(info.getUname(), Time);
                 LoginVo loginVo = (LoginVo) constructor.newInstance(0, user.getUid(), info.getUname(), token, Time, user.getNickname());
                 System.out.println(loginVo);
+                HashMap map=new HashMap();
+                map.put("token",token);
+                map.put("uname",info.getUname());
+                map.put("nickname",user.getNickname());
+                redisTemplate.opsForValue().set(user.getNickname()+"token",map);
                 return loginVo;
             }
         }
@@ -96,7 +111,7 @@ public class ClaraController {
                     registerinfo.getNickname()
             ));
             if (success == 1) {
-                Map<String, Object> valueMap = new HashMap<String, Object>();
+                HashMap valueMap = new HashMap();
                 valueMap.put("to", new String[]{registerinfo.getUemile()});
                 valueMap.put("title", "Clara Write");
                 mailTool.sendSimpleMail(valueMap, 0);
@@ -110,62 +125,62 @@ public class ClaraController {
 
     @RequestMapping("/Querynickname")
     public List<User> Querynickname() {//查询昵称
-        System.out.println("查询昵称");
+       // System.out.println("查询昵称");
         List<User> all = services.Querynickname();
-        System.out.println(all);
+    //    System.out.println(all);
         return all;
     }
 
     @RequestMapping("/Menucomments")
     public List<Menu> QueryAllMenuComments(@RequestParam("comments") int comments) {//返回评论数选项卡
         List<Menu> all = services.QueryAllMenuComments(comments);
-        System.out.println(all);
+      //  System.out.println(all);
         return all;//返回数据
     }
 
     @RequestMapping("/Menuyear")
     public List<Menu> QueryAllMenuYear(@RequestParam("year") String year) {//返回评论日期选项卡
         List<Menu> all = services.QueryAllMenuYear(year);
-        System.out.println(all);
+        //System.out.println(all);
         return all;//返回数据
     }
 
     @RequestMapping("/queryLists")
     public List<Menu> QueryLists() {//返回所有普通选项卡
         List<Menu> all = services.QueryLists(1);
-        System.out.println(all);
+      //  System.out.println(all);
         return all;//返回数据
     }
 
     @RequestMapping("/queryMenuList")
     public List<Menu> queryMenuList() {//返回所有选项卡
         List<Menu> all = services.queryMenuList();
-        System.out.println(all);
+       // System.out.println(all);
         return all;//返回数据
     }
 
     @RequestMapping("/QueryAllMenuCount")
     public int QueryAllDetailsCount() {//条数内容
-        System.out.println("这是条数");
-        System.out.println(services.QueryAllMenuCount());
+      //  System.out.println("这是条数");
+      //  System.out.println(services.QueryAllMenuCount());
         return services.QueryAllMenuCount();
         //返回数据
     }
 
     @RequestMapping("/Details")
     public Menu QueryByDetails(@RequestParam("menutitle") String menutitle) {//根据标题查询内容
-        System.out.println(menutitle);
+      //  System.out.println(menutitle);
         Menu all = services.QueryByDetails(menutitle);
-        System.out.println(all);
+       // System.out.println(all);
         services.UpadteMenured(menutitle);
         return all;
         //返回数据
     }
     @RequestMapping("/DetaileLick")
     public List<Menu> DetaileLike(@RequestParam("menutitle") String menutitle){
-        System.out.println("模糊查询"+menutitle);
+      //  System.out.println("模糊查询"+menutitle);
         List<Menu> all=services.QueryByDetaileLike(menutitle);
-        System.out.println(all);
+       // System.out.println(all);
         return all;
     }
     //返回评论
@@ -178,15 +193,17 @@ public class ClaraController {
 
     //跳转发布评论
     @RequestMapping("/addComment")
-    public void addComment() {
+    public String addComment() {
         System.out.println("这是发布评论");
+        return "200";
     }
 
     @RequestMapping("/realaddComment")
     public int realaddComment(@RequestBody Topiccomments info) {
-        System.out.println("这是发布评论");
-        info.setTopicdate(new Token().getTime());
         System.out.println(info);
+      //  System.out.println("这是发布评论");
+        info.setTopicdate(new Token().getTime());
+    //    System.out.println(info);
         int back = services.addComment(info);
         //System.out.println(back);
         int menucomment = services.QueryTopiccommentscomment(info.getTopictitle());
@@ -199,15 +216,15 @@ public class ClaraController {
     @RequestMapping("/QueryRepleComments")
     public List<RepleComments> QueryRepleComments(@RequestParam("menutitle") String menutitle) {
         List<RepleComments> all = services.QueryRepleComments(menutitle);
-        System.out.println(all);
-        System.out.println("这是根查询");
+      //  System.out.println(all);
+    //    System.out.println("这是根查询");
         return all;
     }
 
     //回复评论
     @RequestMapping("/replecomment")
     public int replecomment(@RequestBody RepleComments repleinfo) {
-        System.out.println(repleinfo);
+      //  System.out.println(repleinfo);
         int back = services.ReplyComment(new RepleComments(0, repleinfo.getCommentid(), repleinfo.getRepleid(), repleinfo.getRepleType(), repleinfo.getRepletitle(), repleinfo.getRepletext(), repleinfo.getFromusid(), repleinfo.getTouid(), new Token().getTime()));
         return back;
     }
@@ -298,8 +315,14 @@ public class ClaraController {
     }
     LuckUser luckUser=null;
     Song song=null;
-    @RequestMapping("/monitor")
-    public String monitor(@RequestParam("nickname") String nickname) throws InterruptedException {
+    @RequestMapping("/monitor/{nickname}/{token}")
+    public String monitor(@PathVariable("nickname") String nickname,@PathVariable("token") String token) throws InterruptedException {
+        System.out.println(token);
+//        System.out.println(nickname+"/"+token);
+//        System.out.println(redisTemplate.opsForValue().get(token));
+        if(redisTemplate.opsForValue().get(nickname+"token")==null){
+                return "403";
+        }
         luckUser = services.QueryLuckUser(nickname);
          song = services.QuerySongUrl();
         if (song == null) {
@@ -321,5 +344,11 @@ public class ClaraController {
             return "你已拥有名额";
         }
     }
+    }
+    //id重排操作
+    @RequestMapping("/id_rearrangement")
+    public void id_rearrangement(){
+        services.id_rearrangement();
+        services.id_rearrangement_();
     }
 }

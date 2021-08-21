@@ -122,4 +122,10 @@
   <delete id="DeletSongUrl">
     delete from song
   </delete>
+  <update id="id_rearrangement">
+    ALTER  TABLE  menu DROP menuid;
+  </update>
+  <update id="id_rearrangement_">
+    ALTER  TABLE  menu ADD menuid mediumint(6) PRIMARY KEY NOT NULL AUTO_INCREMENT FIRST;
+  </update>
 </mapper>

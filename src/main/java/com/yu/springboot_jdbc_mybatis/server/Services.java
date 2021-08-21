@@ -156,6 +156,16 @@ public  class  Services implements Services_in {
         return claramapper.ReplyComment(repleComments);
     }
 
+    @Override
+    public void id_rearrangement() {
+        claramapper.id_rearrangement();
+    }
+
+    @Override
+    public void id_rearrangement_() {
+        claramapper.id_rearrangement_();
+    }
+
     //后台
     @Override
     public int deleteMenu(int id) {

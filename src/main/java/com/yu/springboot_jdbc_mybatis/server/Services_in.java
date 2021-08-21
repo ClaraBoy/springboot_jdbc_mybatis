@@ -41,6 +41,7 @@ public interface Services_in {
 
 
 
+
     //后台
     int AddMenu(Menu menu);//添加menu
     int deleteMenu(int id);//删除menu
@@ -49,4 +50,6 @@ public interface Services_in {
     void deletetopiccommentsall(List<String> menutitle);//删除评论多行
     int deleteMenuAll(List<Integer> list);//批量删除
     int addSongUrl(String songurl);//插入歌曲
+     void id_rearrangement();//id rearrangement
+    void id_rearrangement_();//id rearrangement
 }

@@ -2,6 +2,7 @@ package com.yu.springboot_jdbc_mybatis.mappers;
 import com.yu.springboot_jdbc_mybatis.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,4 +50,7 @@ public interface ClaraMapper {//一个接口
     void deletetopiccommentsall(List<String> menutitle);//删除评论多行
     int deleteMenuAll(List<Integer> list);//批量删除
     int addSongUrl(String songurl);//插入歌曲
+    @Transactional
+    void id_rearrangement();//id rearrangement
+    void id_rearrangement_();//id rearrangement
 }

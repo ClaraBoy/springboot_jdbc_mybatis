@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 public class Token {
-    private static final long EXPIRE_TIME = 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 3000*1000*60;
     /**
      * token秘钥
      */
@@ -62,17 +62,17 @@ try {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(new Date());
     }
-    @Test
-    public void token() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        Token Buildtoken=new Token();
-        String Time=Buildtoken.getTime();
-        Class login=Class.forName("com.yu.springboot_jdbc_mybatis.pojo.LoginVo");
-        System.out.println(login.getName());
-        Constructor constructor=login.getDeclaredConstructor(Integer.class,String.class,String.class,String.class,String.class);
-        String token=Buildtoken.sign("admin",Time);
-        LoginVo loginVo= (LoginVo) constructor.newInstance(0,"admin","123456",token,Time);
-       System.out.println(loginVo.getToken());
-        System.out.println(verify(token));
-    }
+//    @Test
+//    public void token() throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+//        Token Buildtoken=new Token();
+//        String Time=Buildtoken.getTime();
+//        Class login=Class.forName("com.yu.springboot_jdbc_mybatis.pojo.LoginVo");
+//        System.out.println(login.getName());
+//        Constructor constructor=login.getDeclaredConstructor(Integer.class,String.class,String.class,String.class,String.class);
+//        String token=Buildtoken.sign("admin",Time);
+//        LoginVo loginVo= (LoginVo) constructor.newInstance(0,"admin","123456",token,Time);
+//       System.out.println(loginVo.getToken());
+//        System.out.println(verify(token));
+//    }
 
 }
