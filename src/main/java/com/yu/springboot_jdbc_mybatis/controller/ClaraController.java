@@ -261,6 +261,7 @@ public class ClaraController {
 
     @RequestMapping("/verification")
     public Boolean verification(@RequestBody VerificationVo resetpwdinfo) {
+        //验证码暂存
         System.out.println("本地验证码:" + cache.getIfPresent(resetpwdinfo.getUname()));
         if (cache.getIfPresent(resetpwdinfo.getUname()) == null) {
             return false;
@@ -289,6 +290,7 @@ public class ClaraController {
         }
         return false;
     }
+    //线程 用户签到
     private static final int MAX_SIZE = 0;
     private Monitor monitor = new Monitor();
     static Integer yys = 60;
@@ -315,6 +317,7 @@ public class ClaraController {
     }
     LuckUser luckUser=null;
     Song song=null;
+<<<<<<< HEAD
     @RequestMapping("/monitor/{nickname}/{token}")
     public String monitor(@PathVariable("nickname") String nickname,@PathVariable("token") String token) throws InterruptedException {
         System.out.println(token);
@@ -323,6 +326,11 @@ public class ClaraController {
         if(redisTemplate.opsForValue().get(nickname+"token")==null){
                 return "403";
         }
+=======
+    //获取签到音乐
+    @RequestMapping("/monitor")
+    public String monitor(@RequestParam("nickname") String nickname) throws InterruptedException {
+>>>>>>> 8dfc868e68623696c932ca1c2f1f69bdc4530449
         luckUser = services.QueryLuckUser(nickname);
          song = services.QuerySongUrl();
         if (song == null) {

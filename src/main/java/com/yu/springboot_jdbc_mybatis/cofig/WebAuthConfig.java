@@ -7,6 +7,7 @@ import javax.annotation.Resource;
  * @author Clara
  */
 @Configuration
+//拦截器配置
 public class WebAuthConfig extends WebMvcConfigurationSupport {
     @Resource
     private TokenInterceptor tokenInterceptor;

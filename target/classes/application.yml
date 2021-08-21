@@ -12,6 +12,7 @@ spring:
     port: 587
     username: 1670844920@qq.com
     password: kptflealcvbfcggd
+    nickname: Clara
     properties:
       mali:
         smtp:

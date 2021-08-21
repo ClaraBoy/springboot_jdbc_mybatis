@@ -1,6 +1,7 @@
 package com.yu.springboot_jdbc_mybatis.tool;
 import org.junit.Test;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
@@ -10,6 +11,8 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 //操作类别
 //端口号
+//长连接统计在线人数
+@CrossOrigin//跨域问题
 @ServerEndpoint(value = "/count")
 @Component
 public class CustomWebSocket {

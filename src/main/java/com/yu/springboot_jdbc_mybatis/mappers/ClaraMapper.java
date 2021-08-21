@@ -2,12 +2,13 @@ package com.yu.springboot_jdbc_mybatis.mappers;
 import com.yu.springboot_jdbc_mybatis.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+<<<<<<< HEAD
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.LinkedList;
+=======
+>>>>>>> 8dfc868e68623696c932ca1c2f1f69bdc4530449
 import java.util.List;
-import java.util.Map;
-
 //相当于dao层
 @Mapper//标识这是一个MapperDao接口主要实现和mapper.xml的联系
 @Repository//被spring整合在这里可有可无

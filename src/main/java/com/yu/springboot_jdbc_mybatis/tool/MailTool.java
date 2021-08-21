@@ -9,11 +9,13 @@ import org.thymeleaf.context.Context;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.Map;
-
 @Component
 public class MailTool {
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Value("${spring.mail.nickname}")
+    private String nickname;
 
     @Value("${spring.mail.username}")
     private String senderMailAddress;
@@ -28,7 +30,7 @@ public class MailTool {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
             //设置发件人邮箱
-            helper.setFrom(senderMailAddress);
+            helper.setFrom(nickname+'<'+senderMailAddress+'>');
 
             //设置收件人邮箱
             helper.setTo((String[]) valueMap.get("to"));
@@ -38,7 +40,9 @@ public class MailTool {
 
             //添加正文（使用thymeleaf模板）
             Context context = new Context();
+
             context.setVariables(valueMap);
+
           //  context.setVariable("number", "00000");
             String content=null;
             if(of==0){
