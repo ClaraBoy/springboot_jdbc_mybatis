@@ -11,18 +11,18 @@ public  class  Services implements Services_in {
     ClaraMapper claramapper;
 
     @Override
-    public User Queryuser(String uname) {
+    public Users Queryuser(String uname) {
         return claramapper.Queryuser(uname);
     }
 
     @Override
-    public List<User> Querynickname() {
+    public List<Users> Querynickname() {
         return claramapper.Querynickname();
     }
 
     @Override
-    public int addUser(User user) {
-        return claramapper.addUser(user);
+    public int addUser(Users users) {
+        return claramapper.addUser(users);
     }
 
     @Override
@@ -154,6 +154,21 @@ public  class  Services implements Services_in {
     @Override
     public int ReplyComment(RepleComments repleComments) {
         return claramapper.ReplyComment(repleComments);
+    }
+
+    @Override
+    public void addNotice(Notify notify) {
+        claramapper.addNotice(notify);
+    }
+
+    @Override
+    public List<Notify> queryNotify(String sender_name) {
+        return claramapper.queryNotify(sender_name);
+    }
+
+    @Override
+    public void updateNotify(String sender_name) {
+        claramapper.updateNotify(sender_name);
     }
 
     @Override

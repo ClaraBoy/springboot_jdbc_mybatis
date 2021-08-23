@@ -6,12 +6,17 @@ import com.yu.springboot_jdbc_mybatis.pojo.*;
 import com.yu.springboot_jdbc_mybatis.server.Services;
 import com.yu.springboot_jdbc_mybatis.tool.*;
 import lombok.SneakyThrows;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
+import javax.annotation.PostConstruct;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -20,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 //@Controller//在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面，若返回json等内容到页面，则需要加@ResponseBody注解
 @CrossOrigin//跨域问题
 public class ClaraController {
+    private static final Logger log = LoggerFactory.getLogger(ClaraController.class);
     private MailTool mailTool;
     @Autowired
     public void setMailTool(MailTool mailTool) {
@@ -35,7 +41,7 @@ public class ClaraController {
     public void setRedisTemplate(RedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
-//    @PostConstruct
+  @PostConstruct
     public void sendTimeTo() {
          String executeTime = "00:00:00";
          DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -50,8 +56,8 @@ public class ClaraController {
                     public void run() {
                         Date startTime = dateFormat.parse(dayFormat.format(new Date()) + " " + executeTime);
                         Date ti = dateFormat.parse(dayFormat.format(new Date()) + " " +timeFormat.format(new Date()));
-                        System.out.println("当前时间" + ti.getTime());
-                        System.out.println("固定时间" + startTime.getTime());
+                       // System.out.println("当前时间" + ti.getTime());
+                       // System.out.println("固定时间" + startTime.getTime());
                         if (ti.getTime() == startTime.getTime()) {
                             System.out.println("时间到了 清空数据");
                             services.DeletSongUrl();
@@ -74,22 +80,22 @@ public class ClaraController {
             .build();
 
     @RequestMapping("/Ulogin")
-    public LoginVo Queryuser(@RequestBody User info) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        User user = services.Queryuser(info.getUname());
-        if (user != null) {
-            if (user.getUpwd().equals(info.getUpwd())) {
-                Token Buildtoken = new Token();
-                String Time = Buildtoken.getTime();
+    public LoginVo Queryuser(@RequestBody Users info) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+        log.debug("登陆操作");
+        Users users = services.Queryuser(info.getUname());
+        if (users != null) {
+            if (users.getUpwd().equals(info.getUpwd())) {
+                String Time = Token.getTime();
                 Class login = Class.forName("com.yu.springboot_jdbc_mybatis.pojo.LoginVo");
                 Constructor constructor = login.getDeclaredConstructor(Integer.class, Integer.class, String.class, String.class, String.class, String.class);
-                String token = Buildtoken.sign(info.getUname(), Time);
-                LoginVo loginVo = (LoginVo) constructor.newInstance(0, user.getUid(), info.getUname(), token, Time, user.getNickname());
-                System.out.println(loginVo);
+                String token = Token.sign(info.getUname(), Time, users.getUpwd());
+                LoginVo loginVo = (LoginVo) constructor.newInstance(0, users.getUid(), info.getUname(), token, Time, users.getNickname());
+                log.debug("LoginVo"+loginVo);
                 HashMap map=new HashMap();
                 map.put("token",token);
                 map.put("uname",info.getUname());
-                map.put("nickname",user.getNickname());
-                redisTemplate.opsForValue().set(user.getNickname()+"token",map);
+                map.put("nickname", users.getNickname());
+                redisTemplate.opsForValue().set(users.getNickname()+"token",map);
                 return loginVo;
             }
         }
@@ -97,12 +103,12 @@ public class ClaraController {
     }
 
     @RequestMapping("/addUser")
-    public int addUser(@RequestBody User registerinfo) {
+    public int addUser(@RequestBody Users registerinfo) {
         System.out.println(registerinfo.getUemile());
         String info = services.QueryuserOnly(registerinfo.getUname(), registerinfo.getUemile(), registerinfo.getNickname());
         System.out.println(info);
         if (info == null) {
-            int success = services.addUser(new User(
+            int success = services.addUser(new Users(
                     0,
                     registerinfo.getUname(),
                     registerinfo.getUpwd(),
@@ -124,9 +130,9 @@ public class ClaraController {
     }
 
     @RequestMapping("/Querynickname")
-    public List<User> Querynickname() {//查询昵称
+    public List<Users> Querynickname() {//查询昵称
        // System.out.println("查询昵称");
-        List<User> all = services.Querynickname();
+        List<Users> all = services.Querynickname();
     //    System.out.println(all);
         return all;
     }
@@ -197,12 +203,23 @@ public class ClaraController {
         System.out.println("这是发布评论");
         return "200";
     }
-
+    public String getTime() throws ParseException {
+            StringBuffer sBuffer = new StringBuffer();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(new Date());
+            System.out.println(sBuffer);
+        DateFormat df1 = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.CHINA);
+        DateFormat df7 = DateFormat.getTimeInstance(DateFormat.MEDIUM, Locale.CHINA);
+        String time1= df1.format(cal.getTime());
+        String time2= df7.format(cal.getTime());
+        return (time1+" "+time2);
+    }
     @RequestMapping("/realaddComment")
-    public int realaddComment(@RequestBody Topiccomments info) {
-        System.out.println(info);
+    public int realaddComment(@RequestBody Topiccomments info) throws ParseException {
+        //System.out.println(info);
       //  System.out.println("这是发布评论");
-        info.setTopicdate(new Token().getTime());
+
+        info.setTopicdate(getTime());
     //    System.out.println(info);
         int back = services.addComment(info);
         //System.out.println(back);
@@ -223,9 +240,18 @@ public class ClaraController {
 
     //回复评论
     @RequestMapping("/replecomment")
-    public int replecomment(@RequestBody RepleComments repleinfo) {
-      //  System.out.println(repleinfo);
-        int back = services.ReplyComment(new RepleComments(0, repleinfo.getCommentid(), repleinfo.getRepleid(), repleinfo.getRepleType(), repleinfo.getRepletitle(), repleinfo.getRepletext(), repleinfo.getFromusid(), repleinfo.getTouid(), new Token().getTime()));
+    public int replecomment(@RequestBody RepleComments repleinfo) throws ParseException {
+        Notify notify=new Notify();
+        notify.setContent(repleinfo.getRepletext())
+        .setType("回复")
+        .setTarget_name(repleinfo.getCommentname())
+        .setAction("用户")
+        .setSender_name(repleinfo.getReplename())
+        .setIs_read(0)
+        .setCreated_at(getTime());
+        services.addNotice(notify);
+        log.debug(""+repleinfo);
+        int back = services.ReplyComment(new RepleComments(0, repleinfo.getCommentname(), repleinfo.getReplename(), repleinfo.getRepleType(), repleinfo.getRepletitle(), repleinfo.getRepletext(), repleinfo.getFromusid(), repleinfo.getTouid(),Token.getTime()));
         return back;
     }
     //发送邮件
@@ -237,20 +263,20 @@ public class ClaraController {
     //发送验证码
     //HashMap<String, Object> mapCode=new HashMap<String, Object>();
     @RequestMapping("/sendVerification")
-    public int sendVerification(@RequestBody User resetpwdinfo) {
-        User user = services.Queryuser(resetpwdinfo.getUname());
-        if (user != null) {
-            if (user.getUemile().equals(resetpwdinfo.getUemile())) {
+    public int sendVerification(@RequestBody Users resetpwdinfo) {
+        Users users = services.Queryuser(resetpwdinfo.getUname());
+        if (users != null) {
+            if (users.getUemile().equals(resetpwdinfo.getUemile())) {
                 int max = 99999, min = 1000;
                 long randomNum = System.currentTimeMillis();
                 int ran3 = (int) (randomNum % (max - min) + min);
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("title", "Clara Write");
-                map.put("to", new String[]{user.getUemile()});
+                map.put("to", new String[]{users.getUemile()});
                 map.put("Verification", ran3 + "");
-                map.put("Nickname", user.getNickname());
+                map.put("Nickname", users.getNickname());
                 mailTool.sendSimpleMail(map, 1);
-                cache.put(user.getUname(), ran3 + "");
+                cache.put(users.getUname(), ran3 + "");
                 return 1;
             }
             return -1;
@@ -319,9 +345,6 @@ public class ClaraController {
     Song song=null;
     @RequestMapping("/monitor/{nickname}/{token}")
     public String monitor(@PathVariable("nickname") String nickname,@PathVariable("token") String token) throws InterruptedException {
-        System.out.println(token);
-//        System.out.println(nickname+"/"+token);
-//        System.out.println(redisTemplate.opsForValue().get(token));
         if (redisTemplate.opsForValue().get(nickname + "token") == null) {
             return "403";
         }
@@ -346,6 +369,15 @@ public class ClaraController {
             return "你已拥有名额";
         }
     }
+    }
+    @PostMapping("/upNotify/{name}")
+    public void updatenotify(@PathVariable("name") String name){
+            services.updateNotify(name);
+    }
+    @GetMapping("/queryNotify/{name}")
+    public List<Notify> queryNotify(@PathVariable("name") String name){
+        log.debug(""+name);
+        return services.queryNotify(name);
     }
     //id重排操作
     @RequestMapping("/id_rearrangement")

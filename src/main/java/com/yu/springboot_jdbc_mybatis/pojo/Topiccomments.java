@@ -13,5 +13,5 @@ public class Topiccomments {
     private String topictitle;
     private String topictext;
     private String topicdate;
-    private String topicred;
+    private int topicred;
 }

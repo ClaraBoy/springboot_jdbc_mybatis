@@ -36,16 +36,16 @@
   <select id="queryMenuList" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     select * from menu
   </select>
-  <select id="Queryuser" resultType="com.yu.springboot_jdbc_mybatis.pojo.User">
+  <select id="Queryuser" resultType="com.yu.springboot_jdbc_mybatis.pojo.Users">
     select * from users where uname=#{uname}
   </select>
     <select id="QueryComment" resultType="com.yu.springboot_jdbc_mybatis.pojo.Topiccomments">
-      select * from topiccomments where topictitle=#{topictitle}
+      select * from topiccomments where topictitle=#{topictitle} ORDER BY topicdate DESC
     </select>
     <select id="QueryRepleComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
       select * from replecomments where repletitle=#{repletitle}
     </select>
-    <select id="Querynickname" resultType="com.yu.springboot_jdbc_mybatis.pojo.User">
+    <select id="Querynickname" resultType="com.yu.springboot_jdbc_mybatis.pojo.Users">
       SELECT uid,nickname from users
     </select>
   <select id="QueryuserOnly" resultType="java.lang.String">
@@ -75,6 +75,9 @@
     <bind name="menutitle" value="'%' + menutitle + '%'"/>
     select * from menu where menutitle like #{menutitle}
   </select>
+  <select id="queryNotify" resultType="com.yu.springboot_jdbc_mybatis.pojo.Notify">
+    select * from notify where sender_name=#{sender_name} order by is_read ASC
+  </select>
   <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
@@ -82,7 +85,7 @@
     INSERT into topiccomments VALUES(#{id},#{topicname},#{topictitle},#{topictext},#{topicdate},#{topicred})
   </insert>
     <insert id="ReplyComment">
-      INSERT into replecomments VALUES(#{id},#{commentid},#{repleid},#{repleType},#{repletitle},#{repletext},#{fromusid},#{touid},#{repledate})
+      INSERT into replecomments VALUES(#{id},#{commentname},#{replename},#{repleType},#{repletitle},#{repletext},#{fromusid},#{touid},#{repledate})
     </insert>
   <insert id="addUser">
     INSERT into users value(#{uid},#{uname},#{upwd},#{uemile},#{upower},#{nickname})
@@ -93,7 +96,10 @@
     <insert id="addSongUrl">
       insert into song values(0,#{songurl},60)
     </insert>
-    <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+  <insert id="addNotice">
+    insert into notify value(0,#{content},#{type},#{target_name},#{action},#{sender_name},#{is_read},#{created_at})
+  </insert>
+  <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     delete from menu where titleid=#{id}
   </delete>
   <delete id="deleteDetails" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
@@ -127,5 +133,8 @@
   </update>
   <update id="id_rearrangement_">
     ALTER  TABLE  menu ADD menuid mediumint(6) PRIMARY KEY NOT NULL AUTO_INCREMENT FIRST;
+  </update>
+  <update id="updateNotify">
+    update notify set is_read=1 where sender_name=#{sender_name}
   </update>
 </mapper>

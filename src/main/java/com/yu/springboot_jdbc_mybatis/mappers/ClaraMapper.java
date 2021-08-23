@@ -3,17 +3,16 @@ import com.yu.springboot_jdbc_mybatis.pojo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.LinkedList;
 import java.util.List;
 //相当于dao层
 @Mapper//标识这是一个MapperDao接口主要实现和mapper.xml的联系
 @Repository//被spring整合在这里可有可无
 //前台接口
 public interface ClaraMapper {//一个接口
-    User Queryuser(String uname);//用户登陆
-    List<User> Querynickname();//用户昵称
+    Users Queryuser(String uname);//用户登陆
+    List<Users> Querynickname();//用户昵称
     String QueryuserOnly(String uname,String uemile,String nickname);//查询单个用户
-    int addUser(User user);//用户注册
+    int addUser(Users users);//用户注册
     int UpdateUserPwd(VerificationVo verificationVo);//修改密码
     String QueryemileByNickname(String nickname);//获取邮箱
     int addLuckUser(String nickname,int sing);//音乐用户
@@ -39,6 +38,9 @@ public interface ClaraMapper {//一个接口
     void UpadteMenured(String menutitle);//访问量
     List<RepleComments>QueryRepleComments(String repletitle);//根查询
     int ReplyComment(RepleComments repleComments);//回复评论
+    void addNotice(Notify notify);//添加通知
+    List<Notify> queryNotify(String sender_name);//查询通知
+    void updateNotify(String sender_name);//已读
 //后台
     int AddMenu(Menu menu);//添加menu
     int deleteMenu(int id);//删除menu

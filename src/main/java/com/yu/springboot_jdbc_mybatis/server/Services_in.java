@@ -4,9 +4,9 @@ import java.util.List;
 //服务接口层
 public interface Services_in {
     //前台
-    User Queryuser(String uname);//用户登陆
-    List<User> Querynickname();//用户昵称
-    int addUser(User user);//用户注册
+    Users Queryuser(String uname);//用户登陆
+    List<Users> Querynickname();//用户昵称
+    int addUser(Users users);//用户注册
     int UpdateUserPwd(VerificationVo verificationVo);//修改密码
     String QueryemileByNickname(String nickname);//获取邮箱
     int addLuckUser(String nickname,int sing);//插入音乐用户
@@ -33,6 +33,9 @@ public interface Services_in {
     void UpadteMenured(String menutitle);//访问量
     List<RepleComments>QueryRepleComments(String repletitle);//根查询
     int ReplyComment(RepleComments repleComments);//回复评论
+    void addNotice(Notify notify);//添加通知
+    List<Notify> queryNotify(String sender_name);//查询通知
+    void updateNotify(String sender_name);//已读
 
 
 

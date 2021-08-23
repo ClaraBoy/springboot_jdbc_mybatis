@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RepleComments {
     private int id;
-    private int commentid;
-    private int repleid;
+    private String commentname;
+    private String replename;
     private int repleType;
     private String repletitle;
     private String repletext;

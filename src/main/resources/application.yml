@@ -39,7 +39,7 @@ server:
 logging:
   level:
     root: info
-    com.example.spring_boot_new_.controller: debug #日志级别
+    com.yu.springboot_jdbc_mybatis: debug #日志级别
   file:
     name: run.log
     path: ./

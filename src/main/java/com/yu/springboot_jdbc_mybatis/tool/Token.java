@@ -1,28 +1,30 @@
 package com.yu.springboot_jdbc_mybatis.tool;
 import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.yu.springboot_jdbc_mybatis.pojo.LoginVo;
-import org.junit.jupiter.api.Test;
+import com.yu.springboot_jdbc_mybatis.pojo.Users;
+import org.springframework.util.DigestUtils;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 public class Token {
-    private static final long EXPIRE_TIME = 3000*1000*60;
+    //过期时间
+    private static final Integer TIME_OUT_DAY = 30;
+    //需要重新生成的天数 如果token的时间超过这个 则重新生成token
+    private static final Integer NEED_CREATE_DAY = 7;
     /**
      * token秘钥
      */
     private static final String TOKEN_SECRET = "Clara";
 
-    public static String sign(String username, String loginTime) {
-try {
+    public static String sign(String username, String loginTime,String key) {
+        try {
         // 设置过期时间
-        Date date = new Date(System.currentTimeMillis() + EXPIRE_TIME);
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE,TIME_OUT_DAY);
         // 私钥和加密算法
         Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
         // 设置头部信息
@@ -33,8 +35,9 @@ try {
         return JWT.create()
                 .withHeader(header)
                 .withClaim("loginName", username)
+                .withClaim("key", DigestUtils.md5DigestAsHex(key.getBytes()))
                 .withClaim("loginTime", loginTime)
-                .withExpiresAt(date)
+                .withExpiresAt(calendar.getTime())
                 .sign(algorithm);
     } catch (Exception e) {
         e.printStackTrace();
@@ -46,18 +49,51 @@ try {
      * @param token 需要校验的token
      * @return 校验是否成功
      */
-    public static boolean verify(String token){
+    public static DecodedJWT verify(String token){
         try {
             //设置签名的加密算法：HMAC256
-            Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
-            JWTVerifier verifier = JWT.require(algorithm).build();
-            DecodedJWT jwt = verifier.verify(token);
-            return true;
+            DecodedJWT verifier = JWT.require(Algorithm.HMAC256(TOKEN_SECRET)).build().verify(token);;
+            return verifier;
         } catch (Exception e){
-            return false;
+            return null;
         }
     }
-    public String getTime(){
+    /**
+     * 获取用户ID
+     * @param decodedJWT
+     * @return
+     */
+    public static String getUserId(DecodedJWT decodedJWT){
+        return decodedJWT.getClaim("loginName").asString();
+    }
+
+    /**
+     * 验证是否修改过密码
+     * @param decodedJWT
+     * @param users
+     * @return
+     */
+    public static boolean isUpdatedPassword(DecodedJWT decodedJWT, Users users){
+        String oldPwd = decodedJWT.getClaim("key").asString();
+        String newPwd = DigestUtils.md5DigestAsHex(users.getUpwd().getBytes());
+        return oldPwd.equals(newPwd)?false:true;
+    }
+
+    /**
+     * 是否需要重新生成token （为了延续token时长）
+     * @param decodedJWT
+     * @return
+     */
+    public static boolean needCreate(DecodedJWT decodedJWT) {
+        Date timeoutDate = decodedJWT.getExpiresAt();
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, TIME_OUT_DAY - NEED_CREATE_DAY);
+        if (timeoutDate.before(calendar.getTime())) {
+            return true;
+        }
+        return false;
+    }
+    public static String getTime(){
         //设置日期格式
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(new Date());

@@ -1,4 +1,6 @@
 package com.yu.springboot_jdbc_mybatis.tool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.websocket.*;
@@ -11,25 +13,26 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @Component
 public class CustomWebSocket_The_heartbeat {
     private static CopyOnWriteArraySet<CustomWebSocket_The_heartbeat> webSocketSetheart = new CopyOnWriteArraySet<CustomWebSocket_The_heartbeat>();
+    private static final Logger log = LoggerFactory.getLogger(CustomWebSocket_The_heartbeat.class);
     private Session session;
     int i=0,j=0;
     @OnOpen
     public void onOpen(Session session){
         this.session=session;
         webSocketSetheart.add(this);
-        System.out.println("这是长连接"+i++);
+        log.debug("这是长连接");
     }
     @OnClose
     public void onClose() {
         //从set中删除
         webSocketSetheart.remove(this);
-        System.out.println("关闭长连接"+j++);
+        log.debug("关闭长连接"+j++);
     }
     @OnMessage
     public void onMessage(String message, Session session) throws IOException {
-        System.out.println("客户端发送请求保持连接的消息：" + message);
+        log.debug("客户端发送请求保持连接的消息"+message);
         if(message.equals("200")){
-            System.out.println("保持连接");
+            log.debug("保持连接");
             sendMessage("200");
         }else {
             sendMessage("400");
