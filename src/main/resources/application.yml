@@ -21,7 +21,7 @@ spring:
           enable: true
   redis:
     # 地址
-    host: 172.30.96.1
+    host: 172.21.96.1
     # 端口号
     port: 6379
     # 密码

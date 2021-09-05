@@ -171,15 +171,6 @@ public  class  Services implements Services_in {
         claramapper.updateNotify(sender_name);
     }
 
-    @Override
-    public void id_rearrangement() {
-        claramapper.id_rearrangement();
-    }
-
-    @Override
-    public void id_rearrangement_() {
-        claramapper.id_rearrangement_();
-    }
 
     //后台
     @Override
@@ -217,4 +208,43 @@ public  class  Services implements Services_in {
         return claramapper.AddMenu(menu);
     }
 
+    @Override
+    public void id_rearrangement() {
+        claramapper.id_rearrangement();
+    }
+
+    @Override
+    public void id_rearrangement_() {
+        claramapper.id_rearrangement_();
+    }
+
+    @Override
+    public List<Topiccomments> queryTopiccomments(String menutitle) {
+        return claramapper.queryTopiccomments(menutitle);
+    }
+
+    @Override
+    public List<RepleComments> queryRepleComments(String menutitle) {
+        return claramapper.queryRepleComments(menutitle);
+    }
+
+    @Override
+    public List<Topiccomments> queryTopiccommentsandRepleComments(String menutitle) {
+        return claramapper.queryTopiccommentsandRepleComments(menutitle);
+    }
+
+    @Override
+    public int deleteTopiccomments(int id) {
+        return claramapper.deleteTopiccomments(id);
+    }
+
+    @Override
+    public int deleteRepleComments(int id) {
+        return claramapper.deleteRepleComments(id);
+    }
+
+    @Override
+    public int deleteR(String repletitle, String touid) {
+        return claramapper.deleteR(repletitle, touid);
+    }
 }

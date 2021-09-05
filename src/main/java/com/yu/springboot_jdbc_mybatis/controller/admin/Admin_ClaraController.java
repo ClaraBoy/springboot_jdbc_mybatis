@@ -1,11 +1,11 @@
 package com.yu.springboot_jdbc_mybatis.controller.admin;
 import com.yu.springboot_jdbc_mybatis.pojo.Menu;
+import com.yu.springboot_jdbc_mybatis.pojo.RepleComments;
+import com.yu.springboot_jdbc_mybatis.pojo.Topiccomments;
 import com.yu.springboot_jdbc_mybatis.server.Services;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 @RestController//@Controller+@ResponseBody联用
 // 但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
@@ -66,5 +66,28 @@ public class Admin_ClaraController {
     @RequestMapping("/test")
     public int test() {
         return 1;
+    }
+    @GetMapping("/topiccomments/{menutitle}")
+    public List<Topiccomments> queryreplecomments(@PathVariable("menutitle") String menutitle){
+        return services.queryTopiccomments(menutitle);
+    }
+    @GetMapping("/replecomments/{menutitle}")
+    public List<RepleComments> queryrreplecomments(@PathVariable("menutitle") String menutitle){
+        return services.queryRepleComments(menutitle);
+    }
+    @GetMapping("/TopiccommentsAndRepleComments/{menutitle}")
+    public List<Topiccomments> queryTopiccommentsandRepleComments(@PathVariable("menutitle") String menutitle){
+        return services.queryTopiccommentsandRepleComments(menutitle);
+    }
+    @GetMapping("/deletetopiccomments/{id}/{menutitle}/{topicred}")
+    public int deleteTopiccomments(@PathVariable("id") int id,@PathVariable("menutitle") String menutitle,@PathVariable("topicred") String topicred){
+        //连带删除回复表
+        services.deleteR(menutitle,topicred);
+        return services.deleteTopiccomments(id);
+    }
+    @GetMapping("/deletereplecomments/{id}")
+    public int deleteRepleComments(@PathVariable("id") int id){
+        System.out.println(66666);
+        return services.deleteRepleComments(id);
     }
 }

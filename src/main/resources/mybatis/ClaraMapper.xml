@@ -78,6 +78,12 @@
   <select id="queryNotify" resultType="com.yu.springboot_jdbc_mybatis.pojo.Notify">
     select * from notify where sender_name=#{sender_name} order by is_read ASC
   </select>
+    <select id="queryTopiccomments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Topiccomments">
+      select * from topiccomments where topictitle=#{menutitle}
+    </select>
+  <select id="queryRepleComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
+    select * from replecomments where repletitle=#{menutitle}
+  </select>
   <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
   </insert>
@@ -128,6 +134,15 @@
   <delete id="DeletSongUrl">
     delete from song
   </delete>
+  <delete id="deleteTopiccomments">
+    delete from topiccomments where id=#{id}
+  </delete>
+  <delete id="deleteRepleComments">
+    delete from replecomments where id=#{id}
+  </delete>
+  <delete id="deleteR">
+    delete from replecomments where repletitle=#{repletitle} and touid=#{touid}
+  </delete>
   <update id="id_rearrangement">
     ALTER  TABLE  menu DROP menuid;
   </update>
@@ -137,4 +152,76 @@
   <update id="updateNotify">
     update notify set is_read=1 where sender_name=#{sender_name}
   </update>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <resultMap id="MapTo" type="com.yu.springboot_jdbc_mybatis.pojo.Topiccomments">
+    <id column="id" property="id"/>
+    <result column="topicname" property="topicname"/>
+    <result column="topictitle" property="topictitle"/>
+    <result column="topictext" property="topictext"/>
+    <result column="topicdate" property="topicdate"/>
+    <result column="topicred" property="topicred"/>
+    <collection  property="repleComments" column="repleComments" javaType="list" ofType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
+      <id column="id" property="id"/>
+      <result column="commentname" property="commentname"/>
+      <result column="replename" property="replename"/>
+      <result column="repleType" property="repleType"/>
+      <result column="repletitle" property="repletitle"/>
+      <result column="repletext" property="repletext"/>
+      <result column="fromusid" property="fromusid"/>
+      <result column="touid" property="touid"/>
+      <result column="repledate" property="repledate"/>
+    </collection>
+  </resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <select id="queryTopiccommentsandRepleComments" resultMap="MapTo">
+    select * from topiccomments a LEFT JOIN replecomments b on a.topicred=b.touid and a.topictitle=b.repletitle
+    <where>
+        a.topictitle = 'it行业'
+    </where>
+  </select>
+
 </mapper>

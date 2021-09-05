@@ -53,4 +53,10 @@ public interface Services_in {
     int addSongUrl(String songurl);//插入歌曲
      void id_rearrangement();//id rearrangement
     void id_rearrangement_();//id rearrangement
+    List<Topiccomments> queryTopiccomments(String menutitle);//查看所有评论信息
+    List<RepleComments> queryRepleComments(String menutitle);//查看所有回复信息
+    List<Topiccomments> queryTopiccommentsandRepleComments(String menutitle); //查询连表评论与回复
+    int deleteTopiccomments(int id);//删除评论
+    int deleteRepleComments(int id);//删除回复
+    int deleteR(String repletitle,String touid); //连带删除回复
 }
