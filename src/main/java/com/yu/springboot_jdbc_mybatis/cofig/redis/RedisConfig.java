@@ -1,4 +1,4 @@
-package com.yu.springboot_jdbc_mybatis.cofig;
+package com.yu.springboot_jdbc_mybatis.cofig.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

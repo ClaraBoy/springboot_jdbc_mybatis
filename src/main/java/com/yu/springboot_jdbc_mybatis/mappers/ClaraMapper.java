@@ -40,6 +40,7 @@ public interface ClaraMapper {//一个接口
     int ReplyComment(RepleComments repleComments);//回复评论
     void addNotice(Notify notify);//添加通知
     List<Notify> queryNotify(String sender_name);//查询通知
+    //全体通知（还需要把读过的人加入已读方法 还需要一张表保存已读用户）
     void updateNotify(String sender_name);//已读
 //后台
     int AddMenu(Menu menu);//添加menu
@@ -58,4 +59,5 @@ public interface ClaraMapper {//一个接口
     int deleteTopiccomments(int id);//删除评论
     int deleteRepleComments(int id);//删除回复
     int deleteR(String repletitle,String touid); //连带删除回复
+    int updateMenu(Menu menu);//修改文章
 }

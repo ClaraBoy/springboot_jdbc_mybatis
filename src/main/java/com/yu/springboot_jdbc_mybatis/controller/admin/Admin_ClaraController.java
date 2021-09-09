@@ -90,4 +90,14 @@ public class Admin_ClaraController {
         System.out.println(66666);
         return services.deleteRepleComments(id);
     }
+    @GetMapping("querytitle/{titleName}")
+    public Menu QueryByDetails(@PathVariable("titleName") String titleName){
+        return services.QueryByDetails(titleName);
+    }
+    @PostMapping("updateMenu")
+    public int updateMenu(@RequestBody Menu menu){
+        System.out.println(menu.toString());
+        return services.updateMenu(menu);
+    }
+
 }

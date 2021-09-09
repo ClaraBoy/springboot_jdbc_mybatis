@@ -59,4 +59,5 @@ public interface Services_in {
     int deleteTopiccomments(int id);//删除评论
     int deleteRepleComments(int id);//删除回复
     int deleteR(String repletitle,String touid); //连带删除回复
+    int updateMenu(Menu menu);//修改文章
 }

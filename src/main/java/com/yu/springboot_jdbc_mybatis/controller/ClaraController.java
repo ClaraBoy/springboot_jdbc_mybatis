@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @RestController//@Controller+@ResponseBody联用
 // 但使用@RestController这个注解，就不能返回jsp,html页面，视图解析器无法解析jsp,html页面
 //@Controller//在对应的方法上，视图解析器可以解析return 的jsp,html页面，并且跳转到相应页面，若返回json等内容到页面，则需要加@ResponseBody注解
-@CrossOrigin//跨域问题
+@CrossOrigin
 public class ClaraController {
     private static final Logger log = LoggerFactory.getLogger(ClaraController.class);
     private MailTool mailTool;
@@ -344,6 +344,7 @@ public class ClaraController {
     Song song=null;
     @RequestMapping("/monitor/{nickname}/{token}")
     public String monitor(@PathVariable("nickname") String nickname,@PathVariable("token") String token) throws InterruptedException {
+        System.out.println(nickname+""+token);
         if (redisTemplate.opsForValue().get(nickname + "token") == null) {
             return "403";
         }

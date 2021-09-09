@@ -1,4 +1,4 @@
-package com.yu.springboot_jdbc_mybatis.cofig;
+package com.yu.springboot_jdbc_mybatis.cofig.Interceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;

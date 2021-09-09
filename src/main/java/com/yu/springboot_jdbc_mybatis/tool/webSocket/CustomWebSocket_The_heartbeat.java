@@ -1,4 +1,4 @@
-package com.yu.springboot_jdbc_mybatis.tool;
+package com.yu.springboot_jdbc_mybatis.tool.webSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

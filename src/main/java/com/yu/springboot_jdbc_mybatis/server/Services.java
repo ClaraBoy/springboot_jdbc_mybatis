@@ -247,4 +247,9 @@ public  class  Services implements Services_in {
     public int deleteR(String repletitle, String touid) {
         return claramapper.deleteR(repletitle, touid);
     }
+
+    @Override
+    public int updateMenu(Menu menu) {
+        return claramapper.updateMenu(menu);
+    }
 }

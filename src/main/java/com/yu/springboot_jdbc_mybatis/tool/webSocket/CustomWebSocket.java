@@ -1,4 +1,4 @@
-package com.yu.springboot_jdbc_mybatis.tool;
+package com.yu.springboot_jdbc_mybatis.tool.webSocket;
 import org.junit.Test;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;

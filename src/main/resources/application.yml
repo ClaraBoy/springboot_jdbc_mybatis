@@ -5,6 +5,13 @@ spring:
     url: jdbc:mysql://localhost:3306/cl?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     #整合mybatis
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    publisher-confirm-type: correlated
+    publisher-returns: true
   thymeleaf:
     cache: false
   mail:
@@ -21,11 +28,11 @@ spring:
           enable: true
   redis:
     # 地址
-    host: 172.21.96.1
+    host: 172.17.48.1
     # 端口号
     port: 6379
     # 密码
-    # password: 123456
+    #password: 123456
     # 超时时间，单位毫秒
     timeout: 3000
     # 数据库编号
@@ -36,6 +43,12 @@ mybatis:
   mapper-locations: classpath:mybatis\*.xml
 server:
   port: 9000
+#  ssl:
+#    enabled: true
+#    key-store: classpath:tomcat.keystore
+#    key-store-type: JKS
+#    key-store-password: 666666
+#    key-alias: tomcat
 logging:
   level:
     root: info

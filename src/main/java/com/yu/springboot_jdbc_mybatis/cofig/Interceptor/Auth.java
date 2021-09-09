@@ -1,4 +1,4 @@
-package com.yu.springboot_jdbc_mybatis.cofig;
+package com.yu.springboot_jdbc_mybatis.cofig.Interceptor;
 import com.alibaba.fastjson.JSONObject;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.yu.springboot_jdbc_mybatis.pojo.Users;

@@ -1,4 +1,4 @@
-package com.yu.springboot_jdbc_mybatis.cofig;
+package com.yu.springboot_jdbc_mybatis.cofig.aop;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
