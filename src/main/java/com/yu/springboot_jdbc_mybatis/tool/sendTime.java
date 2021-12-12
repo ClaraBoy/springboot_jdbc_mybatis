@@ -1,5 +1,5 @@
 package com.yu.springboot_jdbc_mybatis.tool;
-import com.yu.springboot_jdbc_mybatis.server.Services;
+import com.yu.springboot_jdbc_mybatis.server.original.ServicesImpl;
 import lombok.SneakyThrows;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -13,7 +13,7 @@ public  class  sendTime {
     static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
     public void sendTimeTo() {
         try {
-            Class service= Services.class;
+            Class service= ServicesImpl.class;
             Method open=service.getMethod("DeleteLuckUser");
             open.invoke(service.newInstance(),null);
             //定时器

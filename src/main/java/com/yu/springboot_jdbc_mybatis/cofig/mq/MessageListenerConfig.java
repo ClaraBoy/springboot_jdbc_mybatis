@@ -1,5 +1,4 @@
 package com.yu.springboot_jdbc_mybatis.cofig.mq;
-import com.yu.springboot_jdbc_mybatis.tool.MyAckReceiver;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
@@ -35,7 +34,7 @@ public class MessageListenerConfig {
         // RabbitMQ默认是自动确认，这里改为手动确认消息
         container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         //设置一个队列
-        container.setQueueNames("testDirectQueue");
+        container.setQueueNames("testDirectQueue","topic.man","topic.woman");
         //如果同时设置多个如下： 前提是队列都是必须已经创建存在的
         //  container.setQueueNames("TestDirectQueue","TestDirectQueue2","TestDirectQueue3");
 

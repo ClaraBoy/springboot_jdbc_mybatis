@@ -17,6 +17,9 @@ public class LoginVo {
      */
     private String token;
 
+
+    private String refreshToken;
+
     /**
      * 登录时间
      */
@@ -25,15 +28,25 @@ public class LoginVo {
      * 昵称
      * */
     private String nickname;
+/**
+ * sessionid
+ * */
+    private String sessionId;
 
-    public LoginVo(Integer option, Integer uid, String userName,String token, String loginTime, String nickname) {
+    private String applicationid;
+
+    public LoginVo(Integer option, Integer uid, String userName, String token,String refreshToken, String loginTime, String nickname, String sessionId,String applicationid) {
         this.option = option;
         this.uid = uid;
         this.userName = userName;
         this.token = token;
+        this.refreshToken=refreshToken;
         this.loginTime = loginTime;
-        this.nickname=nickname;
+        this.nickname = nickname;
+        this.sessionId = sessionId;
+        this.applicationid=applicationid;
     }
+
     public LoginVo() {
     }
 }

@@ -16,7 +16,9 @@ public class Topiccomments {
     private String topictext;
     private String topicdate;
     private int topicred;
+    private  String applicationid;
     private List<RepleComments> repleComments;
+
 
     @Override
     public String toString() {
@@ -28,6 +30,7 @@ public class Topiccomments {
                 ", topicdate='" + topicdate + '\'' +
                 ", topicred=" + topicred +
                 ", repleComments=" + repleComments +
+                ", applicationid='" + applicationid + '\'' +
                 '}';
     }
 }

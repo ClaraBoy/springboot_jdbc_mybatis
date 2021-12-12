@@ -76,7 +76,8 @@ public class Token {
     public static boolean isUpdatedPassword(DecodedJWT decodedJWT, Users users){
         String oldPwd = decodedJWT.getClaim("key").asString();
         String newPwd = DigestUtils.md5DigestAsHex(users.getUpwd().getBytes());
-        return oldPwd.equals(newPwd)?false:true;
+       // System.out.println(oldPwd+"/"+newPwd);
+        return !oldPwd.equals(newPwd);
     }
 
     /**

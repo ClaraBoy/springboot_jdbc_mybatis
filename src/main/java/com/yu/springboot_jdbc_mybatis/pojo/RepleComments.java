@@ -16,4 +16,21 @@ public class RepleComments {
     private int fromusid;
     private int touid;
     private String repledate;
+    private  String applicationid;
+
+    @Override
+    public String toString() {
+        return "RepleComments{" +
+                "id=" + id +
+                ", commentname='" + commentname + '\'' +
+                ", replename='" + replename + '\'' +
+                ", repleType=" + repleType +
+                ", repletitle='" + repletitle + '\'' +
+                ", repletext='" + repletext + '\'' +
+                ", fromusid=" + fromusid +
+                ", touid=" + touid +
+                ", repledate='" + repledate + '\'' +
+                ", applicationid='" + applicationid + '\'' +
+                '}';
+    }
 }

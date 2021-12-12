@@ -16,6 +16,6 @@ public class WebAuthConfig extends WebMvcConfigurationSupport {
     }
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(tokenInterceptor).addPathPatterns("/addComment");
+        registry.addInterceptor(tokenInterceptor).addPathPatterns("/addComment","/upload","/App/**","/search_history");
     }
 }

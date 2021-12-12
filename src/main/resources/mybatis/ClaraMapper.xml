@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yu.springboot_jdbc_mybatis.mappers.ClaraMapper">
   <update id="UpdateMenutitle">
-    update menu set menucomment=#{menucomment} where menutitle=#{menutitle}
+    update menu set menucomment=#{menucomment} where menutitle=#{menutitle} and applicationid=#{applicationid}
   </update>
   <update id="UpadteMenured">
-    update menu set menured=menured+1 where menutitle=#{menutitle}
+    update menu set menured=menured+1 where menutitle=#{menutitle} and applicationid=#{applicationid}
   </update>
   <update id="Fortitleid">
-    update menu set titleid=#{titleid} where menutitle=#{menutitle}
+    update menu set titleid=#{titleid} where menutitle=#{menutitle} and applicationid=#{applicationid}
   </update>
     <update id="UpdateUserPwd">
       update users set upwd=#{upwd} where uname=#{uname} and uemile=#{uemile}
@@ -19,19 +19,19 @@
          update song set ofNumber=ofNumber-1
   </update>
   <select id="QueryAllMenuComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    select * from menu order by menucomment desc limit 0,4;
+    select * from menu where Review=#{Review} order by menucomment desc limit 0,4;
   </select>
     <select id="QueryAllMenuYear" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    select * from menu where year(menudate)>=#{year} LIMIT 0,4
+    select * from menu where year(menudate)>=#{year} and Review=#{Review} LIMIT 0,4
   </select>
   <select id="QueryAllMenuCount" resultType="Integer">
    SELECT count(*) from menu
   </select>
   <select id="QueryLists" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    select * from menu where rightto=1
+    select * from menu where rightto=1 and Review=#{Review}
   </select>
     <select id="QueryByDetails" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    select * from menu where menutitle=#{menutitle}
+    select * from menu where menutitle=#{menutitle} and applicationid=#{applicationid}
     </select>
   <select id="queryMenuList" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     select * from menu
@@ -40,10 +40,10 @@
     select * from users where uname=#{uname}
   </select>
     <select id="QueryComment" resultType="com.yu.springboot_jdbc_mybatis.pojo.Topiccomments">
-      select * from topiccomments where topictitle=#{topictitle} ORDER BY topicdate DESC
+      select * from topiccomments where topictitle=#{topictitle} and applicationid=#{applicationid} ORDER BY topicdate DESC
     </select>
     <select id="QueryRepleComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
-      select * from replecomments where repletitle=#{repletitle}
+      select * from replecomments where repletitle=#{repletitle} and applicationid=#{applicationid}
     </select>
     <select id="Querynickname" resultType="com.yu.springboot_jdbc_mybatis.pojo.Users">
       SELECT uid,nickname from users
@@ -52,15 +52,25 @@
     select* from users where uname=#{uname} or uemile=#{uemile} or nickname=#{nickname}
   </select>
     <select id="QueryTopiccommentscomment" resultType="java.lang.Integer">
-      select count(*) from topiccomments where topictitle=(select menutitle from menu where menutitle=#{menutitle})
+      select count(*) from topiccomments where topictitle=(select menutitle from menu where menutitle=#{menutitle} and applicationid=#{applicationid})
     </select>
   <select id="QueryById" resultType="java.lang.String">
     select menutitle from menu where menuid=#{menuid}
   </select>
+  <select id="QueryByIdapplicationid" resultType="java.lang.String">
+    select applicationid from menu where menuid=#{menuid}
+  </select>
   <select id="QueryByIdall" resultType="java.lang.String">
-    select menutitle from menu where menuid in<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+    select menutitle from menu where menuid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
     #{item}
-  </foreach>
+    </foreach>
+  </select>
+  <select id="QueryByIdapplicationidall" resultType="java.lang.String">
+    select applicationid from menu where menuid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
   </select>
     <select id="QueryemileByNickname" resultType="java.lang.String">
       SELECT uemile from users where nickname=#{nickname}
@@ -73,28 +83,28 @@
   </select>
   <select id="QueryByDetaileLike" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     <bind name="menutitle" value="'%' + menutitle + '%'"/>
-    select * from menu where menutitle like #{menutitle}
+    select * from menu where menutitle like #{menutitle} and Review=#{Review}
   </select>
   <select id="queryNotify" resultType="com.yu.springboot_jdbc_mybatis.pojo.Notify">
     select * from notify where sender_name=#{sender_name} order by is_read ASC
   </select>
     <select id="queryTopiccomments" resultType="com.yu.springboot_jdbc_mybatis.pojo.Topiccomments">
-      select * from topiccomments where topictitle=#{menutitle}
+      select * from topiccomments where topictitle=#{menutitle} and applicationid=#{applicationid}
     </select>
   <select id="queryRepleComments" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
-    select * from replecomments where repletitle=#{menutitle}
+    select * from replecomments where repletitle=#{menutitle} and applicationid=#{applicationid}
   </select>
   <insert id="AddMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info2},#{rightto},#{detailstext})
+    INSERT into menu VALUES(#{menuid},#{menutitle},#{menudate},#{menured},#{menucomment},#{titleid},#{info1},#{info1Url},#{info2},#{info2Url},#{rightto},#{detailstext},#{applicationid},#{Review},#{likeNum})
   </insert>
   <insert id="addComment">
-    INSERT into topiccomments VALUES(#{id},#{topicname},#{topictitle},#{topictext},#{topicdate},#{topicred})
+    INSERT into topiccomments VALUES(#{id},#{topicname},#{topictitle},#{topictext},#{topicdate},#{topicred},#{applicationid})
   </insert>
     <insert id="ReplyComment">
-      INSERT into replecomments VALUES(#{id},#{commentname},#{replename},#{repleType},#{repletitle},#{repletext},#{fromusid},#{touid},#{repledate})
+      INSERT into replecomments VALUES(#{id},#{commentname},#{replename},#{repleType},#{repletitle},#{repletext},#{fromusid},#{touid},#{repledate},#{applicationid})
     </insert>
   <insert id="addUser">
-    INSERT into users value(#{uid},#{uname},#{upwd},#{uemile},#{upower},#{nickname})
+    INSERT into users value(#{uid},#{uname},#{upwd},#{uemile},#{upower},#{nickname},#{applicationid})
   </insert>
     <insert id="addLuckUser">
       INSERT into luckuser (id,nickname,sing) value(0,#{nickname},#{sing})
@@ -105,8 +115,20 @@
   <insert id="addNotice">
     insert into notify value(0,#{content},#{type},#{target_name},#{action},#{sender_name},#{is_read},#{created_at})
   </insert>
+  <insert id="addSearch">
+    insert into search_history values(0,#{userName},#{searchhistry})
+  </insert>
+  <insert id="addFocus">
+    insert into focus values(0,#{focusName},#{focusapplicationid})
+  </insert>
+  <insert id="addCollect">
+    insert into collect values(0,#{collectName},#{collectTitle},#{collectapplicationid})
+  </insert>
+  <insert id="addManner">
+    insert into manner values(0,#{mannerName},#{mannerTitle},#{mannerapplicationid})
+  </insert>
   <delete id="deleteMenu" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
-    delete from menu where titleid=#{id}
+    delete from menu where menuid=#{id}
   </delete>
   <delete id="deleteDetails" parameterType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
     delete from menu where menuid=#{menuid}
@@ -121,11 +143,24 @@
     </foreach>
   </delete>
   <delete id="deletetopiccomments">
-    delete from topiccomments where topictitle=#{topictitle}
+    delete from topiccomments where topictitle=#{topictitle} and applicationid=#{applicationid}
   </delete>
   <delete id="deletetopiccommentsall">
-        delete from topiccomments where topictitle in  <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+        delete from topiccomments where topictitle in
+     <foreach item="item" index="index" collection="list0" open="(" separator="," close=")">
     #{item}
+  </foreach>
+    and applicationid in <foreach item="items" index="index" collection="list1" open="(" separator="," close=")">
+    #{items}
+  </foreach>
+  </delete>
+  <delete id="deletereplecommentsall">
+    delete from replecomments where repletitle in
+    <foreach item="item" index="index" collection="list0" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+    and applicationid in <foreach item="items" index="index" collection="list1" open="(" separator="," close=")">
+    #{items}
   </foreach>
   </delete>
   <delete id="DeleteLuckUser">
@@ -141,7 +176,26 @@
     delete from replecomments where id=#{id}
   </delete>
   <delete id="deleteR">
-    delete from replecomments where repletitle=#{repletitle} and touid=#{touid}
+    delete from replecomments where repletitle=#{repletitle} and touid=#{touid} and applicationid=#{applicationid}
+  </delete>
+  <delete id="deletereplecomments">
+    delete from replecomments where repletitle=#{repletitle} and applicationid=#{applicationid}
+  </delete>
+  <delete id="deleteSearch">
+    delete  from search_history where searchhistry in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
+     and userName=#{userName}
+  </delete>
+  <delete id="deleteByFocus">
+    delete from focus where focusName=#{focusName}  and focusapplicationid=#{focusapplicationid}
+  </delete>
+  <delete id="deleteByCollect">
+    delete from collect where collectName=#{collectName} and collectTitle=#{collectTitle} and collectapplicationid=#{collectapplicationid}
+  </delete>
+  <delete id="deleteByManner">
+    delete from manner where mannerName=#{mannerName} and mannerTitle=#{mannerTitle} and mannerapplicationid=#{mannerapplicationid}
   </delete>
   <update id="id_rearrangement">
     ALTER  TABLE  menu DROP menuid;
@@ -153,7 +207,13 @@
     update notify set is_read=1 where sender_name=#{sender_name}
   </update>
   <update id="updateMenu">
-    update menu set menutitle=#{menutitle} , info1=#{info1} , info2=#{info2} , detailstext=#{detailstext} where titleid=#{titleid}
+    update menu set menutitle=#{menutitle} , info1=#{info1},info1Url=#{info1Url},info2=#{info2},info2Url=#{info2Url}, detailstext=#{detailstext} where menuid=#{menuid}
+  </update>
+  <update id="updateMenuCommentsNum">
+    update menu set menucomment=#{menucomment} where menutitle=#{menutitle} and applicationid=#{applicationid}
+  </update>
+  <update id="updateAaminLastTime">
+    update adminInfo set lastTime=#{lastTime} where adminName=#{adminName}
   </update>
 
 
@@ -202,5 +262,86 @@
         a.topictitle = 'it行业'
     </where>
   </select>
+  <select id="queryusersupower" resultType="java.lang.String">
+    select upower from users where uname=#{upower}
+  </select>
+    <select id="selcttopiccommentsNum" resultType="java.lang.Integer">
+      SELECT count(*) from topiccomments where topictitle=#{topictitle} and applicationid=#{applicationid}
+    </select>
+  <select id="selctreplecommentsNum" resultType="java.lang.Integer">
+    SELECT count(*) from replecomments where repletitle=#{repletitle} and applicationid=#{applicationid}
+  </select>
+  <select id="adminLogin" resultType="com.yu.springboot_jdbc_mybatis.pojo.AdminInfo">
+    select * from adminInfo where adminName=#{adminName}
+  </select>
+  <select id="QueryTitlidMax" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * FROM MENU where applicationid=#{applicationid}
+  </select>
+  <select id="QueryByDetailsExpand" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where menutitle=#{menutitle} and applicationid=#{applicationid} and Review=#{Review}
+  </select>
+  <select id="queryNickName" resultType="java.lang.String">
+    select nickname from users where uname=#{uname}
+  </select>
+  <select id="QueryAllMenuCommentsByPage" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where Review=#{Review} order by menucomment desc limit #{start},#{end};
+  </select>
+  <select id="QueryAllMenuYearByPage" resultType="com.yu.springboot_jdbc_mybatis.pojo.MenuVo">
+    select * from menu where year(menudate)>=#{year} and Review=#{Review} and applicationid=#{applicationid} limit #{start},#{end};
+  </select>
+  <select id="QueryListsByPage" resultType="com.yu.springboot_jdbc_mybatis.pojo.MenuVo">
+    select * from menu where rightto=1 and Review=#{Review} limit #{start},#{end};
+  </select>
+  <select id="QueryAllMenuCommentsByPageCount" resultType="java.lang.Integer">
+    select count(*) from menu where Review=#{Review} order by menucomment desc
+  </select>
+  <select id="QueryAllMenuYearByPageCount" resultType="java.lang.Integer">
+    select count(*) from menu where year(menudate)>=#{year} and Review=#{Review} and applicationid=#{applicationid}
+  </select>
+  <select id="QueryListsByPageCount" resultType="java.lang.Integer">
+    select count(*) from menu where rightto=1 and Review=#{Review}
+  </select>
+  <select id="QueryBySet" resultType="java.lang.String">
+    <bind name="menutitle" value="'%' + menutitle + '%'"/>
+    select menutitle from menu where menutitle like #{menutitle} and Review=#{Review}
+  </select>
+  <select id="QueryByDetaileLikePage" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    <bind name="menutitle" value="'%' + menutitle + '%'"/>
+    select * from menu where menutitle like #{menutitle} and Review=#{Review} limit #{start},#{end};
+  </select>
+  <select id="QuerySearch" resultType="java.lang.String">
+    select searchhistry from search_history where userName=#{userName} order by id desc limit 0,5;
+  </select>
+  <select id="QueryByTitleMenu" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+    select * from menu where menuid=#{menuid}
+  </select>
+  <select id="QueryUserNickName" resultType="java.lang.String">
+    select nickname from users where uname=#{uname}
+  </select>
+  <select id="QueryByFocus" resultType="java.lang.Integer">
+    select count(*) from focus where focusName=#{focusName} and focusapplicationid=#{focusapplicationid}
+  </select>
+  <select id="QueryByCollect" resultType="java.lang.Integer">
+    select count(*) from collect where collectName=#{collectName} and collectTitle=#{collectTitle} and collectapplicationid=#{collectapplicationid}
+  </select>
+  <select id="QueryByManner" resultType="java.lang.Integer">
+    select count(*) from manner where mannerName=#{mannerName} and mannerTitle=#{mannerTitle} and mannerapplicationid=#{mannerapplicationid}
+  </select>
+  <select id="QueryCommentPage" resultType="com.yu.springboot_jdbc_mybatis.pojo.TopiccommentsVo">
+    select * from topiccomments where topictitle=#{topictitle} and applicationid=#{applicationid} ORDER BY topicdate DESC limit #{start},#{end}
+  </select>
+  <select id="QueryRepleCommentsPage" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
+    select * from replecomments where repletitle=#{repletitle} and applicationid=#{applicationid} limit #{start},#{end}
+  </select>
+  <select id="QueryMaxTopiccomment" resultType="java.lang.String">
+    select Max(topicred) from topiccomments where topictitle=#{topictitle} and applicationid=#{applicationid}
+  </select>
+  <select id="QueryTopiccommentRepleComments" resultType="java.lang.Integer">
+    select count(*) from replecomments where repletitle=#{repletitle} and applicationid=#{applicationid} and touid=#{touid}
+  </select>
+  <select id="QueryRepleCommentsPageOnle" resultType="com.yu.springboot_jdbc_mybatis.pojo.RepleComments">
+    select * from replecomments where repletitle=#{repletitle} and applicationid=#{applicationid} and touid=#{touid} limit #{start},#{end}
+  </select>
+
 
 </mapper>

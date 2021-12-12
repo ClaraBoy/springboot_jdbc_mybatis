@@ -1,18 +1,17 @@
 package com.yu.springboot_jdbc_mybatis.cofig.mq;
-
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 /**
  * @author 二十九
  * 消息队列生成
  */
 @Configuration
 public class DirectRabbitConfig {
+    //绑定键 不同群体的发送的消费
     @Bean
     public Queue testDirectQueue(){
         //队列 起名：testDirectQueue
@@ -34,9 +33,5 @@ public class DirectRabbitConfig {
     Binding bindingDirect() {
         //绑定  将队列和交换机绑定, 并设置用于匹配键：TestDirectRouting
         return BindingBuilder.bind(testDirectQueue()).to(testDirectExchange()).with("testDirectRouting");
-    }
-    @Bean
-    DirectExchange lonelyDirectExchange() {
-        return new DirectExchange("lonelyDirectExchange");
     }
 }

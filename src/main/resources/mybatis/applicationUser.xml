@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yu.springboot_jdbc_mybatis.mappers.ApplicationMapper">
+
+    <insert id="addAppUser">
+        insert into applicationuser values(0,#{applicationid},#{applicationrealityName},#{applicationcardID},#{applicationNickName},#{applicationimageUrl},#{applicationdate},#{remark1},#{remark2})
+    </insert>
+    <update id="updatePass">
+        update applicationuser set remark1=#{remark1} where applicationid=#{applicationid}
+    </update>
+    <update id="updatePower">
+        update users set upower=#{upower} where uname=#{uname}
+    </update>
+    <update id="passMenu">
+        update menu set  Review='yes' where menuid=#{menuid}
+    </update>
+    <update id="updateAppMenu">
+        update menu set  info1=#{info1},info1Url=#{info1Url},info2=#{info2},info2Url=#{info2Url},detailstext=#{detailstext},Review=#{Review} where menuid=#{menuid}
+    </update>
+    <delete id="deleteAppUser">
+        delete from applicationuser where applicationid=#{applicationid}
+    </delete>
+    <delete id="deleteAppMenu">
+        delete from menu where menuid=#{menuid}
+    </delete>
+    <select id="queryAppUser" resultType="java.lang.Integer">
+        select count(*) from applicationuser where applicationid=#{applicationid}
+    </select>
+    <select id="queryall" resultType="com.yu.springboot_jdbc_mybatis.pojo.ApplicationUser">
+        select * from applicationuser
+    </select>
+    <select id="queryMenuNo" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+        select * from menu where Review=#{Review}
+    </select>
+    <select id="queryMenuOnle" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+        select * from menu where menuid=#{menuid}
+    </select>
+    <select id="queryMenu" resultType="com.yu.springboot_jdbc_mybatis.pojo.Menu">
+        select * from menu where applicationid=#{applicationid} limit #{start},#{end}
+    </select>
+    <select id="total" resultType="java.lang.Integer">
+        select count(*) from menu where applicationid=#{applicationid}
+    </select>
+</mapper>
